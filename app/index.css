@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brand-dark: #0D0F12;
+  --color-brand-gold: #C5A059;
+
+  --color-background: var(--bg-color);
+  --color-foreground: var(--fg-color);
+  --color-muted: var(--muted-color);
+  --color-muted-fg: var(--muted-fg-color);
+  --color-border: var(--border-color);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  :root {
+    --bg-color: #FDFCFB;
+    --fg-color: #0D0F12;
+    --muted-color: rgba(13, 15, 18, 0.03);
+    --muted-fg-color: rgba(13, 15, 18, 0.6);
+    --border-color: #c5a0594d;
+  }
+
+  .dark {
+    --bg-color: #0D0F12;
+    --fg-color: #E5E5E5;
+    --muted-color: rgba(255, 255, 255, 0.02);
+    --muted-fg-color: #e5e5e599;
+    --border-color: rgba(197, 160, 89, 0.2);
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    @apply font-sans antialiased transition-colors duration-300;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight;
+  }
+}

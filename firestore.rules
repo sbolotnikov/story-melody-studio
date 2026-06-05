@@ -1,0 +1,134 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'sbolotnikov@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'role', 'createdAt']) &&
+             data.size() >= 3 && data.size() <= 7 &&
+             data.email is string && data.email.size() <= 200 &&
+             data.role is string && (data.role == 'user' || data.role == 'admin') &&
+             data.createdAt == request.time &&
+             data.get('phone', '') is string &&
+             data.get('name', '') is string &&
+             data.get('avatarUrl', '') is string;
+    }
+
+    function isValidUserUpdate(data, currentData) {
+      // Allow updating role if admin, or email if owner
+      // It's checked during operation
+      return data.email is string && data.email.size() <= 200 &&
+             data.role is string && (data.role == 'user' || data.role == 'admin') &&
+             data.createdAt == currentData.createdAt && // immutable
+             data.get('phone', '') is string &&
+             data.get('name', '') is string &&
+             data.get('avatarUrl', '') is string;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUser(incoming()) && (incoming().role == 'user' || isAdmin());
+      allow update: if (isOwner(userId) || isAdmin()) && isValidId(userId) && isValidUserUpdate(incoming(), existing()) && 
+                    (
+                      (isAdmin()) || 
+                      (isOwner(userId) && !isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly(['email', 'phone', 'name', 'avatarUrl']) && incoming().role == existing().role)
+                    );
+      allow delete: if isAdmin();
+    }
+
+    function isValidOrderCreate(data) {
+      let hasValidUser = data.keys().hasAll(['userId']) && data.userId is string && data.userId.size() <= 128 && isSignedIn() && data.userId == request.auth.uid;
+      let hasValidGuest = data.keys().hasAll(['phone']) && data.phone is string && data.phone.size() > 0;
+      
+      return data.keys().hasAll(['projectType', 'createdAt']) &&
+             (hasValidUser || hasValidGuest) &&
+             data.projectType is string && data.projectType.size() <= 200 &&
+             data.createdAt == request.time &&
+             data.get('occasion', '') is string &&
+             data.get('date', '') is string &&
+             data.get('language', '') is string &&
+             data.get('phone', '') is string &&
+             data.get('email', '') is string &&
+             data.get('status', 'New') is string &&
+             data.get('paid', false) is bool &&
+             data.get('archived', false) is bool;
+    }
+
+    function isValidOrderUpdate(data, currentData) {
+      return (data.get('userId', '') == currentData.get('userId', '')) &&
+             data.projectType is string && data.projectType.size() <= 200 &&
+             data.createdAt == currentData.createdAt &&
+             data.get('occasion', '') is string &&
+             data.get('date', '') is string &&
+             data.get('language', '') is string &&
+             data.get('phone', '') is string &&
+             data.get('email', '') is string &&
+             data.get('status', 'New') is string &&
+             data.get('paid', false) is bool &&
+             data.get('archived', false) is bool;
+    }
+
+    match /orders/{orderId} {
+      allow get: if isValidId(orderId) && (isAdmin() || (isSignedIn() && existing().userId == request.auth.uid));
+      allow list: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create: if isValidId(orderId) && isValidOrderCreate(incoming());
+      allow update: if isValidId(orderId) && (isAdmin() || (isSignedIn() && existing().userId == request.auth.uid)) && isValidOrderUpdate(incoming(), existing());
+      allow delete: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+    }
+
+    function isValidProductCreate(data) {
+      return data.keys().hasAll(['title', 'price', 'description', 'updatedAt']) &&
+             data.size() == 4 &&
+             data.title is string && data.title.size() <= 200 &&
+             data.price is string && data.price.size() <= 100 &&
+             data.description is string && data.description.size() <= 2000 &&
+             data.updatedAt == request.time;
+    }
+    
+    function isValidProductUpdate(data, currentData) {
+      return data.title is string && data.title.size() <= 200 &&
+             data.price is string && data.price.size() <= 100 &&
+             data.description is string && data.description.size() <= 2000 &&
+             data.updatedAt == request.time;
+    }
+
+
+    match /products/{productId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(productId) && isValidProductCreate(incoming());
+      allow update: if isAdmin() && isValidId(productId) && isValidProductUpdate(incoming(), existing());
+      allow delete: if isAdmin();
+    }
+  }
+}
