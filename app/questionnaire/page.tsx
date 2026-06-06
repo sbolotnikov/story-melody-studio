@@ -96,7 +96,7 @@ export default function Questionnaire() {
         }
 
         if (user) {
-          payload.userId = user.uid;
+          payload.userId = user.id;
           if (!payload.email) payload.email = user.email || "";
           if (!payload.phone) payload.phone = profile?.phone || "";
         }

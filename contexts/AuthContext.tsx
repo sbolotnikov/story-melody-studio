@@ -1,30 +1,18 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  User, 
-  onAuthStateChanged, 
-  signInWithPopup, 
-  GoogleAuthProvider, 
-  signOut, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  sendPasswordResetEmail 
-} from 'firebase/auth';
-import { auth } from '../lib/firebase';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 interface UserProfile {
   id: string; // MongoDB ObjectId
-  firebaseId: string;
   email: string;
   role: 'user' | 'admin';
-  createdAt: string | Date;
-  phone?: string;
   name?: string;
-  avatarUrl?: string;
+  image?: string;
+  phone?: string;
 }
 
 interface AuthContextType {
-  user: User | null;
+  user: UserProfile | null;
   profile: UserProfile | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
@@ -38,69 +26,25 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const { data: session, status, update: updateSession } = useSession();
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const loading = status === 'loading';
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        try {
-          const res = await fetch(`/api/users/${currentUser.uid}`);
-          if (res.ok) {
-            const data = await res.json();
-            setProfile(data as UserProfile);
-          } else {
-            const newProfileData = {
-              firebaseId: currentUser.uid,
-              email: currentUser.email || '',
-              role: currentUser.email === 'sbolotnikov@gmail.com' ? 'admin' : 'user',
-              phone: '',
-              name: currentUser.displayName || ''
-            };
-            
-            const createRes = await fetch('/api/users', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(newProfileData)
-            });
-            
-            if (createRes.ok) {
-              const createdProfile = await createRes.json();
-              setProfile(createdProfile);
-            }
-          }
-        } catch (error) {
-           console.error("Failed to load user profile", error);
-        }
-      } else {
-        setProfile(null);
-      }
-      setLoading(false);
-    });
-
-    return unsubscribe;
-  }, []);
+  const profile_synced = session?.user ? (session.user as UserProfile) : null;
 
   const updateProfile = async (data: Partial<UserProfile>) => {
-    if (!user) return;
+    if (!session?.user) return;
     try {
-      const payload = { 
-        ...data, 
-        firebaseId: user.uid,
-        email: data.email || user.email || ''
-      };
-      
       const res = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ ...data, email: session.user.email })
       });
       
       if (res.ok) {
         const updatedProfile = await res.json();
         setProfile(updatedProfile);
+        await updateSession(); // Refresh session data
       }
     } catch (error) {
       console.error("Failed to update profile", error);
@@ -108,28 +52,60 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    await signIn('google', { callbackUrl: '/dashboard' });
   };
 
   const signInWithEmail = async (email: string, pass: string) => {
-    await signInWithEmailAndPassword(auth, email, pass);
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password: pass,
+    });
+    if (result?.error) {
+      throw new Error(result.error);
+    }
   };
 
   const signUpWithEmail = async (email: string, pass: string) => {
-    await createUserWithEmailAndPassword(auth, email, pass);
+    // We need a register API for this
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+    
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || "Failed to sign up");
+    }
+    
+    // After signup, sign in automatically
+    await signInWithEmail(email, pass);
   };
 
   const resetPassword = async (email: string) => {
-    await sendPasswordResetEmail(auth, email);
+    // NextAuth doesn't handle password resets directly.
+    // Usually you'd send an email with a token to a reset page.
+    console.log("Password reset requested for:", email);
+    alert("Password reset functionality needs to be implemented on the backend.");
   };
 
   const logout = async () => {
-    await signOut(auth);
+    await signOut({ callbackUrl: '/' });
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword, updateProfile, logout }}>
+    <AuthContext.Provider value={{ 
+      user: profile || profile_synced || null, 
+      profile,
+      loading, 
+      signInWithGoogle, 
+      signInWithEmail, 
+      signUpWithEmail, 
+      resetPassword, 
+      updateProfile, 
+      logout 
+    }}>
       {children}
     </AuthContext.Provider>
   );

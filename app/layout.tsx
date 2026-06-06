@@ -34,7 +34,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <meta property="og:description" content="Turn your story into a song, film, and art." />
       </head>
       <body>
-        <Providers>
+        {/* <Providers> */}
           <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-brand-gold selection:text-white">
             <Header />
             <main className="grow flex flex-col">
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: LayoutProps) {
             </main>
             <Footer />
           </div>
-        </Providers>
+        {/* </Providers> */}
       </body>
     </html>
   );
