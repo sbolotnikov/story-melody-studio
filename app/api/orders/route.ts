@@ -3,23 +3,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const userIdParam = searchParams.get("userId");
-
-    let userId = userIdParam;
-
-    // If userId looks like a firebaseId (not a 24-char hex), resolve it
-    if (userIdParam && !(userIdParam.length === 24 && /^[0-9a-fA-F]+$/.test(userIdParam))) {
-      const user = await prisma.user.findUnique({
-        where: { firebaseId: userIdParam },
-        select: { id: true }
-      });
-      if (user) {
-        userId = user.id;
-      } else {
-        // If user not found, return empty list or handle accordingly
-        return Response.json([]);
-      }
-    }
+    const userId = searchParams.get("userId");
 
     const orders = await prisma.order.findMany({
       where: userId ? { userId } : undefined,
@@ -44,23 +28,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    let { id, userId, ...data } = body;
-    
-    // Resolve userId if it's a firebaseId
-    if (userId && !(userId.length === 24 && /^[0-9a-fA-F]+$/.test(userId))) {
-      const user = await prisma.user.findUnique({
-        where: { firebaseId: userId },
-        select: { id: true }
-      });
-      if (user) {
-        userId = user.id;
-      } else {
-        // Option 1: Create user on the fly if needed, or Option 2: Error
-        // For now, let's keep userId as is or set to null if not found
-        // but since Order.userId is db.ObjectId, it MUST be valid or null.
-        userId = null;
-      }
-    }
+    const { id, userId, ...data } = body;
 
     let order;
     if (id && id.length === 24 && /^[0-9a-fA-F]+$/.test(id)) {
@@ -70,7 +38,6 @@ export async function POST(request: Request) {
         create: { ...data, userId }
       });
     } else {
-      // If id was provided but not valid ObjectId, we ignore it for creation
       order = await prisma.order.create({ 
         data: { ...data, userId } 
       });

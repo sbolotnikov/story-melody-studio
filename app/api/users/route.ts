@@ -19,26 +19,48 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { firebaseId, email, role, phone, name } = body;
+    const { id, email, role, phone, name } = body;
     
-    // In MongoDB, we use firebaseId as the unique identifier from the frontend
-    // if it's provided, otherwise we use email.
-    const user = await prisma.user.upsert({
-      where: firebaseId ? { firebaseId } : { email },
-      update: { 
-        email, 
-        role: role || undefined, 
-        phone: phone || undefined, 
-        name: name || undefined 
-      },
-      create: { 
-        firebaseId, 
-        email, 
-        role: role || "user", 
-        phone: phone || "", 
-        name: name || "" 
+    let user;
+    if (id && id.length === 24 && /^[0-9a-fA-F]+$/.test(id)) {
+      const existing = await prisma.user.findUnique({ where: { id } });
+      if (existing) {
+        user = await prisma.user.update({
+          where: { id },
+          data: {
+            email,
+            role: role || undefined,
+            phone: phone || undefined,
+            name: name || undefined,
+          },
+        });
+      } else {
+        user = await prisma.user.create({
+          data: {
+            email,
+            role: role || "user",
+            phone: phone || "",
+            name: name || "",
+          },
+        });
       }
-    });
+    } else {
+      // No valid id: upsert by unique email
+      user = await prisma.user.upsert({
+        where: { email },
+        update: {
+          role: role || undefined,
+          phone: phone || undefined,
+          name: name || undefined,
+        },
+        create: {
+          email,
+          role: role || "user",
+          phone: phone || "",
+          name: name || "",
+        },
+      });
+    }
     
     return Response.json(user);
   } catch (error) {
