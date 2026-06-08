@@ -1,27 +1,18 @@
-'use client';
-
-import React, { useEffect } from "react";
+import React from 'react';
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { useTranslation } from "react-i18next";
 import { Providers } from "./providers";
 import './index.css';
-import './i18n';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import LanguageClient from './LanguageClient';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: LayoutProps) {
-  const { i18n } = useTranslation();
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const lng = params.get("lng");
-    if (lng) {
-      i18n.changeLanguage(lng);
-    }
-  }, [i18n]);
+export default async function RootLayout({ children }: LayoutProps) {
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">
@@ -34,8 +25,9 @@ export default function RootLayout({ children }: LayoutProps) {
         <meta property="og:description" content="Turn your story into a song, film, and art." />
       </head>
       <body>
-        <Providers>
+        <Providers session={session}>
           <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-brand-gold selection:text-white">
+            <LanguageClient />
             <Header />
             <main className="grow flex flex-col">
               {children}

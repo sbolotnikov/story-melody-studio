@@ -11,7 +11,7 @@ type MongoUserData = {
   image?: string | null;
   password?: string | null;
   role?: string | null;
-  telephone?: string | null;
+  phone?: string | null;
   emailVerified?: string | null;
   parties?: string[];
 };
@@ -19,7 +19,7 @@ type MongoUserData = {
 type ExtendedUser = User & {
   id?: string | null;
   role?: string | null;
-  telephone?: string | null;
+  phone?: string | null;
   parties?: string[];
 };
 
@@ -57,7 +57,7 @@ export const authOptions = {
           return null;
         }
         const client = await clientPromise;
-        const db = client.db('story-melody');
+        const db = client.db('story-melody-studio');
         const userDoc = await db.collection('users').findOne({ email: credentials.email });
 
         if (!userDoc) {
@@ -77,6 +77,8 @@ export const authOptions = {
           id: userDoc._id.toString(),
           image: userData?.image ?? null,
           email: userData?.email ?? credentials.email,
+          phone: userData?.phone ?? null,
+          role: userData?.role ?? 'User',
           name: userData?.name ?? null,
         } as User;
 
@@ -109,7 +111,7 @@ export const authOptions = {
       if (account?.provider === 'google') {
         try {
           const client = await clientPromise;
-          const db = client.db('story-melody');
+          const db = client.db('story-melody-studio');
           const userDoc = await db.collection('users').findOne({ email: user.email });
 
           if (!userDoc) {
@@ -129,7 +131,7 @@ export const authOptions = {
               emailVerified: `${year}-${month}-${date} ${hour}:${minute}:${second}`,
               role: 'User',
               googleId: account.providerAccountId,
-              parties: [],
+              
             });
           }
         } catch (error) {
@@ -148,15 +150,16 @@ export const authOptions = {
       }
 
       const client = await clientPromise;
-      const db = client.db('story-melody');
+      const db = client.db('story-melody-studio');
       const userDoc = await db.collection('users').findOne({ email: userEmail });
 
       if (!userDoc) {
+        
         return session;
       }
 
       const dbUser = userDoc as MongoUserData;
-
+      console.log('Session callback - user from DB:', dbUser);
       return {
         ...session,
         user: {
@@ -165,7 +168,7 @@ export const authOptions = {
           email: dbUser?.email ?? userEmail,
           name: dbUser?.name ?? session.user?.name ?? null,
           id: userDoc._id.toString(),
-          telephone: dbUser?.telephone ?? null,
+          phone: dbUser?.phone ?? null,
           parties: dbUser?.parties ?? [],
         },
       };
@@ -179,21 +182,19 @@ export const authOptions = {
           ...token,
           id: extendedUser.id ?? token.id,
           role: extendedUser.role ?? token.role ?? 'User',
-          parties: extendedUser.parties ?? token.parties ?? [],
         };
       }
 
       if (token.email) {
         try {
           const client = await clientPromise;
-          const db = client.db('story-melody');
+          const db = client.db('story-melody-studio');
           const userDoc = await db.collection('users').findOne({ email: token.email });
 
           if (userDoc) {
             const userData = userDoc as MongoUserData;
             token.role = userData.role || 'User';
             token.id = userDoc._id.toString();
-            token.parties = userData.parties || [];
           }
         } catch (error) {
           console.error('Error fetching user role and parties for JWT:', error);

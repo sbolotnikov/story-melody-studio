@@ -32,6 +32,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const profile_synced = session?.user ? (session.user as UserProfile) : null;
 
+  // Refresh session after OAuth sign-in so server-side session callback has a chance to populate DB-derived fields (id, role, etc.)
+  React.useEffect(() => {
+    try {
+      if (
+        status === 'authenticated' &&
+        session?.user &&
+        !(session.user as any).id
+      ) {
+        updateSession?.().catch((err) =>
+          console.error('Failed to refresh session', err),
+        );
+      }
+    } catch (err) {
+      console.error('Error checking session refresh', err);
+    }
+  }, [status, session?.user?.id, updateSession]);
+
+  // Keep local profile state in sync with the session user whenever it changes.
+  React.useEffect(() => {
+    try {
+      if (session?.user) {
+        setProfile(session.user as UserProfile);
+      }
+    } catch (err) {
+      console.error('Error syncing profile from session', err);
+    }
+  }, [session?.user]);
+
   const updateProfile = async (data: Partial<UserProfile>) => {
     if (!session?.user) return;
     try {
@@ -52,6 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signInWithGoogle = async () => {
+    // Redirect-based OAuth; session will be updated after callback. Rely on session sync effect to set profile.
     await signIn('google', { callbackUrl: '/dashboard' });
   };
 
@@ -63,6 +92,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
     if (result?.error) {
       throw new Error(result.error);
+    }
+
+    // Force session refresh so useSession gets the latest user fields, then sync effect will set profile.
+    try {
+      await updateSession?.();
+    } catch (err) {
+      console.error('Failed to update session after credentials sign-in', err);
     }
   };
 

@@ -65,8 +65,8 @@ export default function Dashboard() {
   );
 
   const [profileData, setProfileData] = useState(() => ({
-    name: profile?.name || '',
-    phone: profile?.phone || '',
+    name: user?.name || '',
+    phone: user?.phone || '',
     avatarUrl: profile?.avatarUrl || '',
   }));
   const [isSavingProfile, setIsSavingProfile] = useState(false);

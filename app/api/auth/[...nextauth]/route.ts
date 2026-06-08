@@ -56,17 +56,65 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
+      // Diagnostic log: show incoming user and token state (no secrets)
+      try {
+        console.log('NextAuth jwt callback - user present?', !!user, 'token id?', token?.id);
+      } catch (e) { /* ignore logging errors */ }
+
       if (user) {
         token.id = (user as User).id;
         token.role = (user as User).role;
+        token.name = (user as any).name ?? token.name;
+        token.email = (user as any).email ?? token.email;
+        token.image = (user as any).image ?? token.image;
+        token.phone = (user as any).phone ?? token.phone;
+      } else if (token.id) {
+        try {
+          const dbUser = await prisma.user.findUnique({ where: { id: token.id as string } });
+          if (dbUser) {
+            token.role = (dbUser as User).role;
+            token.name = dbUser.name ?? token.name;
+            token.email = dbUser.email ?? token.email;
+            token.image = dbUser.image ?? token.image;
+            token.phone = (dbUser as any).phone ?? token.phone;
+          }
+        } catch (err) {
+          console.error('Error fetching user in jwt callback', err);
+        }
       }
+      try { console.log('NextAuth jwt callback - result token keys:', Object.keys(token || {})); } catch (e) {}
       return token;
     },
     async session({ session, token }) {
+      try {
+        console.log('NextAuth session callback - token keys:', Object.keys(token || {}));
+      } catch (e) {}
+
       if (session.user) {
         (session.user as any).id = token.id as string;
         (session.user as any).role = token.role as string;
+        (session.user as any).name = token.name ?? session.user.name;
+        (session.user as any).email = token.email ?? session.user.email;
+        (session.user as any).image = token.image ?? session.user.image;
+        (session.user as any).phone = (token as any).phone ?? (session.user as any).phone;
+
+        // Fallback: fetch from DB if some fields are still missing
+        if (token.id && (!session.user.name || !session.user.image || !session.user.email || !(session.user as any).phone)) {
+          try {
+            const dbUser = await prisma.user.findUnique({ where: { id: token.id as string } });
+            if (dbUser) {
+              (session.user as any).name = dbUser.name ?? session.user.name;
+              (session.user as any).email = dbUser.email ?? session.user.email;
+              (session.user as any).image = dbUser.image ?? session.user.image;
+              (session.user as any).phone = (dbUser as any).phone ?? (session.user as any).phone;
+              console.log('NextAuth session callback - populated from DB for user', token.id);
+            }
+          } catch (err) {
+            console.error('Error fetching user in session callback', err);
+          }
+        }
       }
+      try { console.log('NextAuth session callback - session.user keys:', Object.keys(session.user || {})); } catch (e) {}
       return session;
     },
   },
