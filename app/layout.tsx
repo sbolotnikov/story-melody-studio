@@ -26,6 +26,7 @@ export default async function RootLayout({ children }: LayoutProps) {
         <meta name="description" content="Turn your story into a song, film, and art. Personalized creative gifts for birthdays, weddings, anniversaries, and unforgettable life moments." />
         <meta property="og:title" content="StoryMelody Studio" />
         <meta property="og:description" content="Turn your story into a song, film, and art." />
+         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body>
         <Providers session={session} locale={locale}>
