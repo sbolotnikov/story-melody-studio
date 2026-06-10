@@ -40,7 +40,7 @@ type DashboardUser = {
 type DashboardProfile = {
   name?: string;
   phone?: string;
-  avatarUrl?: string;
+  image?: string;
   role?: string;
 };
 
@@ -67,7 +67,7 @@ export default function Dashboard() {
   const [profileData, setProfileData] = useState(() => ({
     name: user?.name || '',
     phone: user?.phone || '',
-    avatarUrl: profile?.avatarUrl || '',
+    avatarUrl: user?.image || '',
   }));
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [profileMessage, setProfileMessage] = useState('');
@@ -134,12 +134,12 @@ export default function Dashboard() {
     setIsSavingProfile(true);
     setProfileMessage('');
     try {
-      const profileUpdate: { name: string; phone: string; avatarUrl?: string } =
+      const profileUpdate: { name: string; phone: string; image?: string } =
         {
           name: profileData.name.trim(),
           phone: profileData.phone.trim(),
           ...(profileData.avatarUrl.trim()
-            ? { avatarUrl: profileData.avatarUrl.trim() }
+            ? { image: profileData.avatarUrl.trim() }
             : {}),
         };
       await updateProfile(profileUpdate);

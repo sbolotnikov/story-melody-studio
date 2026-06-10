@@ -27,19 +27,18 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { data: session, status, update: updateSession } = useSession();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const sessionUser = session?.user as UserProfile | undefined;
+  const [profile, setProfile] = useState<UserProfile | null>(() => sessionUser ?? null);
   const loading = status === 'loading';
 
-  const profile_synced = session?.user ? (session.user as UserProfile) : null;
+  const currentProfile = sessionUser && profile?.id === sessionUser.id
+    ? profile
+    : sessionUser ?? null;
 
   // Refresh session after OAuth sign-in so server-side session callback has a chance to populate DB-derived fields (id, role, etc.)
   React.useEffect(() => {
     try {
-      if (
-        status === 'authenticated' &&
-        session?.user &&
-        !(session.user as any).id
-      ) {
+      if (status === 'authenticated' && sessionUser && !sessionUser.id) {
         updateSession?.().catch((err) =>
           console.error('Failed to refresh session', err),
         );
@@ -47,18 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       console.error('Error checking session refresh', err);
     }
-  }, [status, session?.user?.id, updateSession]);
-
-  // Keep local profile state in sync with the session user whenever it changes.
-  React.useEffect(() => {
-    try {
-      if (session?.user) {
-        setProfile(session.user as UserProfile);
-      }
-    } catch (err) {
-      console.error('Error syncing profile from session', err);
-    }
-  }, [session?.user]);
+  }, [status, sessionUser, updateSession]);
 
   const updateProfile = async (data: Partial<UserProfile>) => {
     if (!session?.user) return;
@@ -132,7 +120,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{ 
-      user: profile || profile_synced || null, 
+      user: currentProfile,
       profile,
       loading, 
       signInWithGoogle, 
