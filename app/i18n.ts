@@ -82,7 +82,46 @@ const resources = {
       "occasions.dance.desc": "Stand out on stage with an original track tailored to your routine. We create dynamic, beat-driven pieces designed to highlight your choreography.",
       
       "occasions.retirements.title": "Retirements",
-      "occasions.retirements.desc": "Honor a lifelong career and toast to the future with a personalized musical tribute. Perfect for celebrating an incredible legacy with colleagues and loved ones."
+      "occasions.retirements.desc": "Honor a lifelong career and toast to the future with a personalized musical tribute. Perfect for celebrating an incredible legacy with colleagues and loved ones.",
+
+      "auth.title_login": "Welcome Back",
+      "auth.title_register": "Create Account",
+      "auth.title_reset": "Reset Password",
+      "auth.desc_login": "Sign in to access your orders and creations.",
+      "auth.desc_register": "Sign up to track your personalized gifts.",
+      "auth.desc_reset": "Enter your email to receive a reset link.",
+      "auth.email": "Email Address",
+      "auth.password": "Password",
+      "auth.forgot": "Forgot?",
+      "auth.btn_login": "Sign In",
+      "auth.btn_register": "Sign Up",
+      "auth.btn_reset": "Send Reset Link",
+      "auth.btn_processing": "Processing...",
+      "auth.no_account": "Don't have an account? Sign up",
+      "auth.has_account": "Already have an account? Sign in",
+      "auth.or_with": "Or continue with",
+      "auth.back_login": "Back to login",
+      "auth.reset_sent": "Reset link sent to",
+
+      "q.step": "Step",
+      "q.of": "of",
+      "q.all_set": "You're All Set!",
+      "q.all_set_desc": "Thank you for sharing your story. Our creative team will review the details and reach out to you shortly to begin the magic.",
+      "q.return_home": "Return to Home",
+      "q.btn_back": "Back",
+      "q.btn_next": "Continue",
+      "q.btn_submit": "Submit",
+      "q.btn_saving": "Saving...",
+      "q.btn_update": "Update Existing",
+      "q.btn_save_new": "Save as New",
+      "q.req_phone": "Please provide your phone number to save your responses, or sign in.",
+
+      "seo.home_desc": "Personalized songs, cinematic music videos, and custom portraits.",
+      "seo.about_desc": "StoryMelody Studio is a passionate team of creators dedicated to transforming your memories into timeless masterpieces.",
+      "seo.packages_desc": "Explore our personalized packages and pricing. Crafted for every moment.",
+      "seo.occasions_desc": "Music and art for birthdays, weddings, anniversaries and more.",
+      "seo.gallery_desc": "Explore our portfolio of unique personalized creations."
+
     }
   },
   ru: {
@@ -165,7 +204,46 @@ const resources = {
       "occasions.dance.desc": "Выделитесь на сцене с оригинальным треком для вашего номера. Мы создаем динамичные композиции, подчеркивающие вашу хореографию.",
       
       "occasions.retirements.title": "Выход на Пенсию",
-      "occasions.retirements.desc": "Отдайте дань уважения карьере и поднимите тост за будущее с помощью музыкального трибьюта. Идеально для празднования с коллегами и близкими."
+      "occasions.retirements.desc": "Отдайте дань уважения карьере и поднимите тост за будущее с помощью музыкального трибьюта. Идеально для празднования с коллегами и близкими.",
+
+      "auth.title_login": "С возвращением",
+      "auth.title_register": "Создать аккаунт",
+      "auth.title_reset": "Сброс пароля",
+      "auth.desc_login": "Войдите, чтобы просматривать свои заказы.",
+      "auth.desc_register": "Зарегистрируйтесь для отслеживания подарков.",
+      "auth.desc_reset": "Введите почту для ссылки на сброс.",
+      "auth.email": "Эл. почта",
+      "auth.password": "Пароль",
+      "auth.forgot": "Забыли?",
+      "auth.btn_login": "Войти",
+      "auth.btn_register": "Регистрация",
+      "auth.btn_reset": "Отправить ссылку",
+      "auth.btn_processing": "Обработка...",
+      "auth.no_account": "Нет аккаунта? Зарегистрироваться",
+      "auth.has_account": "Уже есть аккаунт? Войти",
+      "auth.or_with": "Или через",
+      "auth.back_login": "Назад к входу",
+      "auth.reset_sent": "Ссылка отправлена на",
+
+      "q.step": "Шаг",
+      "q.of": "из",
+      "q.all_set": "Все готово!",
+      "q.all_set_desc": "Спасибо за вашу историю. Наша команда скоро свяжется с вами.",
+      "q.return_home": "На главную",
+      "q.btn_back": "Назад",
+      "q.btn_next": "Далее",
+      "q.btn_submit": "Отправить",
+      "q.btn_saving": "Сохранение...",
+      "q.btn_update": "Обновить",
+      "q.btn_save_new": "Сохранить как новый",
+      "q.req_phone": "Пожалуйста, укажите телефон или войдите в аккаунт.",
+
+      "seo.home_desc": "Персональные песни, клипы и цифровые портреты.",
+      "seo.about_desc": "StoryMelody Studio - команда креаторов, превращающая воспоминания в шедевры.",
+      "seo.packages_desc": "Изучите наши пакеты и цены. Создано для каждого момента.",
+      "seo.occasions_desc": "Музыка и искусство для дней рождения, свадеб, юбилеев и многого другого.",
+      "seo.gallery_desc": "Изучите наше портфолио уникальных персональных работ."
+
     }
   },
   it: {
@@ -248,7 +326,46 @@ const resources = {
       "occasions.dance.desc": "Distinguiti sul palco con un brano originale su misura per la tua coreografia. Creiamo pezzi dinamici per esaltare i tuoi movimenti.",
       
       "occasions.retirements.title": "Pensionamenti",
-      "occasions.retirements.desc": "Onora una carriera e brinda al futuro con un tributo musicale personalizzato. Perfetto per celebrare con colleghi e persone care."
+      "occasions.retirements.desc": "Onora una carriera e brinda al futuro con un tributo musicale personalizzato. Perfetto per celebrare con colleghi e persone care.",
+
+      "auth.title_login": "Bentornato",
+      "auth.title_register": "Crea Account",
+      "auth.title_reset": "Reimposta Password",
+      "auth.desc_login": "Accedi per visualizzare i tuoi ordini.",
+      "auth.desc_register": "Iscriviti per tracciare i tuoi regali.",
+      "auth.desc_reset": "Inserisci l'email per il link di reset.",
+      "auth.email": "Indirizzo Email",
+      "auth.password": "Password",
+      "auth.forgot": "Dimenticato?",
+      "auth.btn_login": "Accedi",
+      "auth.btn_register": "Iscriviti",
+      "auth.btn_reset": "Invia Link",
+      "auth.btn_processing": "Attendere...",
+      "auth.no_account": "Non hai account? Iscriviti",
+      "auth.has_account": "Hai già un account? Accedi",
+      "auth.or_with": "O continua con",
+      "auth.back_login": "Torna al login",
+      "auth.reset_sent": "Link inviato a",
+
+      "q.step": "Passo",
+      "q.of": "di",
+      "q.all_set": "Tutto Pronto!",
+      "q.all_set_desc": "Grazie per la tua storia. Il nostro team ti contatterà presto.",
+      "q.return_home": "Torna alla Home",
+      "q.btn_back": "Indietro",
+      "q.btn_next": "Continua",
+      "q.btn_submit": "Invia",
+      "q.btn_saving": "Salvataggio...",
+      "q.btn_update": "Aggiorna",
+      "q.btn_save_new": "Salva Nuovo",
+      "q.req_phone": "Fornisci il telefono o accedi per salvare le risposte.",
+
+      "seo.home_desc": "Canzoni personalizzate, video musicali e ritratti su misura.",
+      "seo.about_desc": "StoryMelody Studio crea capolavori senza tempo con i tuoi ricordi.",
+      "seo.packages_desc": "Esplora i nostri pacchetti. Creati per ogni momento.",
+      "seo.occasions_desc": "Musica per compleanni, matrimoni, anniversari ed eventi.",
+      "seo.gallery_desc": "Esplora il nostro portfolio."
+
     }
   },
   pl: {
@@ -331,7 +448,46 @@ const resources = {
       "occasions.dance.desc": "Wyróżnij się na scenie dzięki oryginalnemu układowi dopasowanemu do Twojego występu. Tworzymy dynamiczne utwory idealne do Twojej choreografii.",
       
       "occasions.retirements.title": "Emerytury",
-      "occasions.retirements.desc": "Uhonoruj karierę i wnieś toast za przyszłość spersonalizowanym muzycznym akcentem. Idealne na uroczystości ze współpracownikami z pracy."
+      "occasions.retirements.desc": "Uhonoruj karierę i wnieś toast za przyszłość spersonalizowanym muzycznym akcentem. Idealne na uroczystości ze współpracownikami z pracy.",
+
+      "auth.title_login": "Witaj Ponownie",
+      "auth.title_register": "Utwórz Konto",
+      "auth.title_reset": "Zresetuj Hasło",
+      "auth.desc_login": "Zaloguj się, aby uzyskać dostęp.",
+      "auth.desc_register": "Zarejestruj się, aby śledzić.",
+      "auth.desc_reset": "Podaj email do resetowania.",
+      "auth.email": "Adres Email",
+      "auth.password": "Hasło",
+      "auth.forgot": "Zapomniałeś?",
+      "auth.btn_login": "Zaloguj",
+      "auth.btn_register": "Zarejestruj",
+      "auth.btn_reset": "Wyślij Link",
+      "auth.btn_processing": "Przetwarzanie...",
+      "auth.no_account": "Nie masz konta? Zarejestruj się",
+      "auth.has_account": "Masz konto? Zaloguj się",
+      "auth.or_with": "Lub kontynuuj przez",
+      "auth.back_login": "Powrót do logowania",
+      "auth.reset_sent": "Link wysłany na",
+
+      "q.step": "Krok",
+      "q.of": "z",
+      "q.all_set": "Gotowe!",
+      "q.all_set_desc": "Dziękujemy. Nasz zespół wkrótce się z Tobą skontaktuje.",
+      "q.return_home": "Strona Główna",
+      "q.btn_back": "Wstecz",
+      "q.btn_next": "Dalej",
+      "q.btn_submit": "Wyślij",
+      "q.btn_saving": "Zapisywanie...",
+      "q.btn_update": "Aktualizuj",
+      "q.btn_save_new": "Zapisz Nowy",
+      "q.req_phone": "Podaj numer telefonu lub zaloguj się.",
+
+      "seo.home_desc": "Spersonalizowane piosenki, teledyski i portrety.",
+      "seo.about_desc": "StoryMelody Studio zamieni twoje wspomnienia w arcydzieła.",
+      "seo.packages_desc": "Odkryj nasze pakiety. Na każdy moment.",
+      "seo.occasions_desc": "Muzyka na urodziny, wesela, rocznice i więcej.",
+      "seo.gallery_desc": "Zobacz nasze portfolio."
+
     }
   },
     fr: {
@@ -414,7 +570,46 @@ const resources = {
       "occasions.dance.desc": "Démarquez-vous avec une musique originale adaptée à votre chorégraphie.",
       
       "occasions.retirements.title": "Départs à la Retraite",
-      "occasions.retirements.desc": "Honorez une carrière et trinquez à l'avenir avec un hommage musical personnalisé."
+      "occasions.retirements.desc": "Honorez une carrière et trinquez à l'avenir avec un hommage musical personnalisé.",
+
+      "auth.title_login": "Bon retour",
+      "auth.title_register": "Créer un compte",
+      "auth.title_reset": "Réinitialiser",
+      "auth.desc_login": "Connectez-vous à votre compte.",
+      "auth.desc_register": "Inscrivez-vous pour continuer.",
+      "auth.desc_reset": "Entrez votre email pour réinitialiser.",
+      "auth.email": "Adresse Email",
+      "auth.password": "Mot de passe",
+      "auth.forgot": "Oublié?",
+      "auth.btn_login": "Connexion",
+      "auth.btn_register": "Inscription",
+      "auth.btn_reset": "Envoyer le lien",
+      "auth.btn_processing": "En cours...",
+      "auth.no_account": "Pas de compte? S'inscrire",
+      "auth.has_account": "Déjà un compte? Connexion",
+      "auth.or_with": "Ou continuer avec",
+      "auth.back_login": "Retour",
+      "auth.reset_sent": "Lien envoyé à",
+
+      "q.step": "Étape",
+      "q.of": "sur",
+      "q.all_set": "Tout est prêt!",
+      "q.all_set_desc": "Merci. Notre équipe va vous contacter.",
+      "q.return_home": "Retour à l'accueil",
+      "q.btn_back": "Retour",
+      "q.btn_next": "Continuer",
+      "q.btn_submit": "Soumettre",
+      "q.btn_saving": "Sauvegarde...",
+      "q.btn_update": "Mettre à jour",
+      "q.btn_save_new": "Nouveau",
+      "q.req_phone": "Entrez votre téléphone ou connectez-vous.",
+
+      "seo.home_desc": "Chansons personnalisées, vidéos et portraits.",
+      "seo.about_desc": "StoryMelody transforme vos souvenirs en art.",
+      "seo.packages_desc": "Découvrez nos forfaits pour chaque moment.",
+      "seo.occasions_desc": "Musique pour anniversaires, mariages, etc.",
+      "seo.gallery_desc": "Explorez nos créations."
+
     }
   },
   es: {
@@ -497,7 +692,46 @@ const resources = {
       "occasions.dance.desc": "Destaca en el escenario con una pista original diseñada para tu coreografía.",
       
       "occasions.retirements.title": "Jubilaciones",
-      "occasions.retirements.desc": "Honra una carrera y brinda por el futuro con un homenaje musical personalizado."
+      "occasions.retirements.desc": "Honra una carrera y brinda por el futuro con un homenaje musical personalizado.",
+
+      "auth.title_login": "Bienvenido",
+      "auth.title_register": "Crear Cuenta",
+      "auth.title_reset": "Restablecer Contraseña",
+      "auth.desc_login": "Inicia sesión en tu cuenta.",
+      "auth.desc_register": "Regístrate para continuar.",
+      "auth.desc_reset": "Introduce tu email.",
+      "auth.email": "Correo Electrónico",
+      "auth.password": "Contraseña",
+      "auth.forgot": "¿Olvidada?",
+      "auth.btn_login": "Iniciar",
+      "auth.btn_register": "Registrarse",
+      "auth.btn_reset": "Enviar Enlace",
+      "auth.btn_processing": "Procesando...",
+      "auth.no_account": "¿No tienes cuenta? Regístrate",
+      "auth.has_account": "¿Ya tienes cuenta? Inicia",
+      "auth.or_with": "O continúa con",
+      "auth.back_login": "Volver a iniciar",
+      "auth.reset_sent": "Enlace enviado a",
+
+      "q.step": "Paso",
+      "q.of": "de",
+      "q.all_set": "¡Todo listo!",
+      "q.all_set_desc": "Gracias por tu historia. Nuestro equipo te contactará.",
+      "q.return_home": "Inicio",
+      "q.btn_back": "Atrás",
+      "q.btn_next": "Siguiente",
+      "q.btn_submit": "Enviar",
+      "q.btn_saving": "Guardando...",
+      "q.btn_update": "Actualizar",
+      "q.btn_save_new": "Nuevo",
+      "q.req_phone": "Introduce tu teléfono o inicia sesión.",
+
+      "seo.home_desc": "Canciones personalizadas, videos y retratos.",
+      "seo.about_desc": "StoryMelody transforma tus recuerdos en arte.",
+      "seo.packages_desc": "Explora nuestros paquetes para cada momento.",
+      "seo.occasions_desc": "Música para cumpleaños, bodas, y más.",
+      "seo.gallery_desc": "Explora nuestro portafolio."
+
     }
   },
   de: {
@@ -580,7 +814,46 @@ const resources = {
       "occasions.dance.desc": "Heben Sie sich auf der Bühne mit einem auf Ihre Choreografie zugeschnittenen Original-Track ab.",
       
       "occasions.retirements.title": "Ruhestand",
-      "occasions.retirements.desc": "Einklang in den Ruhestand mit einem personalisierten musikalischen Tribut. Perfekt, um ein unglaubliches Vermächtnis mit Kollegen zu feiern."
+      "occasions.retirements.desc": "Einklang in den Ruhestand mit einem personalisierten musikalischen Tribut. Perfekt, um ein unglaubliches Vermächtnis mit Kollegen zu feiern.",
+
+      "auth.title_login": "Willkommen zurück",
+      "auth.title_register": "Konto erstellen",
+      "auth.title_reset": "Passwort zurücksetzen",
+      "auth.desc_login": "Melden Sie sich an.",
+      "auth.desc_register": "Registrieren Sie sich.",
+      "auth.desc_reset": "Geben Sie Ihre E-Mail ein.",
+      "auth.email": "E-Mail",
+      "auth.password": "Passwort",
+      "auth.forgot": "Vergessen?",
+      "auth.btn_login": "Anmelden",
+      "auth.btn_register": "Registrieren",
+      "auth.btn_reset": "Link senden",
+      "auth.btn_processing": "Verarbeitung...",
+      "auth.no_account": "Kein Konto? Registrieren",
+      "auth.has_account": "Haben Sie ein Konto? Anmelden",
+      "auth.or_with": "Oder weiter mit",
+      "auth.back_login": "Zurück",
+      "auth.reset_sent": "Link gesendet an",
+
+      "q.step": "Schritt",
+      "q.of": "von",
+      "q.all_set": "Alles bereit!",
+      "q.all_set_desc": "Danke für Ihre Geschichte. Wir werden Sie kontaktieren.",
+      "q.return_home": "Zurück zur Startseite",
+      "q.btn_back": "Zurück",
+      "q.btn_next": "Weiter",
+      "q.btn_submit": "Senden",
+      "q.btn_saving": "Speichern...",
+      "q.btn_update": "Aktualisieren",
+      "q.btn_save_new": "Als neu speichern",
+      "q.req_phone": "Bitte geben Sie Ihre Telefonnummer ein.",
+
+      "seo.home_desc": "Personalisierte Lieder, Videos und Porträts.",
+      "seo.about_desc": "StoryMelody Studio verwandelt Ihre Erinnerungen in Kunst.",
+      "seo.packages_desc": "Entdecken Sie unsere Pakete für jeden Moment.",
+      "seo.occasions_desc": "Musik für Geburtstage, Hochzeiten und mehr.",
+      "seo.gallery_desc": "Entdecken Sie unser Portfolio."
+
     }
   }
 };

@@ -1,8 +1,11 @@
 'use client';
 import React, { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
+
 import { Mail, Lock, AlertCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet-async";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,6 +18,7 @@ export default function Auth() {
   
   const auth = useAuth();
   const router = useRouter();
+  const { t } = useTranslation();
 
   if (!auth) {
     return null;
@@ -38,9 +42,13 @@ export default function Auth() {
         await signUpWithEmail(email, password);
         router.push("/dashboard");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      setErrorMsg((err as Error).message || "An error occurred");
+      if (err.code === "auth/operation-not-allowed") {
+        setErrorMsg("Email/Password authentication is not enabled. Please enable it in your Firebase Console under Authentication > Sign-in method.");
+      } else {
+        setErrorMsg(err.message || "An error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -51,25 +59,35 @@ export default function Auth() {
       setLoading(true);
       await signInWithGoogle();
       router.push("/dashboard");
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      setErrorMsg((err as Error).message || "An error occurred");
+      if (err.code === "auth/operation-not-allowed") {
+        setErrorMsg("Google authentication is not enabled. Please enable it in your Firebase Console under Authentication > Sign-in method.");
+      } else {
+        setErrorMsg(err.message || "An error occurred");
+      }
       setLoading(false);
     }
   };
 
   return (
     <div className="grow flex items-center justify-center py-24 px-4 bg-background">
-      <div className="w-full max-w-md border border-border bg-muted p-8 shadow-2xl relative">
+      <Helmet>
+        <title>{isReset ? t('auth.title_reset') : isLogin ? t('auth.title_login') : t('auth.title_register')} - StoryMelody</title>
+        <meta name="description" content={isReset ? t('auth.desc_reset') : isLogin ? t('auth.desc_login') : t('auth.desc_register')} />
+        <meta property="og:title" content={isReset ? t('auth.title_reset') : isLogin ? t('auth.title_login') : t('auth.title_register')} />
+        <meta property="og:description" content={isReset ? t('auth.desc_reset') : isLogin ? t('auth.desc_login') : t('auth.desc_register')} />
+      </Helmet>
+      <div className="w-full max-w-md border border-border bg-card p-8 shadow-2xl relative">
         <h1 className="text-3xl font-serif font-bold mb-2 text-center text-foreground">
-          {isReset ? "Reset Password" : isLogin ? "Welcome Back" : "Create Account"}
+          {isReset ? t('auth.title_reset') : isLogin ? t('auth.title_login') : t('auth.title_register')}
         </h1>
         <p className="text-sm text-muted-fg text-center mb-8">
           {isReset 
-            ? "Enter your email to receive a reset link." 
+            ? t('auth.desc_reset') 
             : isLogin 
-              ? "Sign in to access your orders and creations." 
-              : "Sign up to track your personalized gifts."}
+              ? t('auth.desc_login') 
+              : t('auth.desc_register')}
         </p>
 
         {errorMsg && (
@@ -81,20 +99,20 @@ export default function Auth() {
 
         {resetSent && isReset ? (
           <div className="text-center p-6 border border-brand-gold bg-brand-gold/10 mb-6">
-            <p className="text-sm font-semibold uppercase tracking-widest text-brand-gold">Reset link sent to {email}</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-brand-gold">{t('auth.reset_sent')} {email}</p>
             <button 
               type="button" 
               onClick={() => { setIsReset(false); setIsLogin(true); setErrorMsg(""); }}
               className="mt-4 text-xs font-semibold uppercase tracking-widest text-foreground hover:text-brand-gold transition-colors"
             >
-              Back to Login
+              {t('auth.back_login')}
             </button>
           </div>
         ) : (
           <>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">Email Directory</label>
+                <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">{t('auth.email')}</label>
                 <div className="relative">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-fg" />
                   <input
@@ -111,14 +129,14 @@ export default function Auth() {
               {!isReset && (
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg">Security Key</label>
+                    <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg">{t('auth.password')}</label>
                     {isLogin && (
                       <button 
                         type="button" 
                         onClick={() => { setIsReset(true); setErrorMsg(""); }}
                         className="text-[10px] uppercase tracking-widest font-semibold text-brand-gold hover:text-brand-gold/80 transition-colors"
                       >
-                        Forgot?
+                        {t('auth.forgot')}
                       </button>
                     )}
                   </div>
@@ -142,15 +160,15 @@ export default function Auth() {
                 disabled={loading}
                 className="w-full bg-brand-gold text-brand-dark px-6 py-4 text-xs font-semibold uppercase tracking-widest hover:bg-brand-gold/90 transition-colors disabled:opacity-50 mt-4"
               >
-                {loading ? "Processing..." : isReset ? "Send Reset Link" : isLogin ? "Sign In" : "Sign Up"}
+                {loading ? t('auth.btn_processing') : isReset ? t('auth.btn_reset') : isLogin ? t('auth.btn_login') : t('auth.btn_register')}
               </button>
             </form>
 
             {!isReset && (
               <>
                 <div className="relative my-8 border-t border-border">
-                  <span className="absolute left-1/2 -top-3 -translate-x-1/2 bg-background px-4 text-[10px] uppercase tracking-widest text-muted-fg font-semibold">
-                    Or continue with
+                  <span className="absolute left-1/2 -top-3 -translate-x-1/2 bg-card px-4 text-[10px] uppercase tracking-widest text-muted-fg font-semibold">
+                    {t('auth.or_with')}
                   </span>
                 </div>
                 
@@ -178,7 +196,7 @@ export default function Auth() {
                   onClick={() => { setIsReset(false); setErrorMsg(""); }}
                   className="text-[10px] uppercase tracking-widest font-semibold text-muted-fg hover:text-brand-gold transition-colors"
                 >
-                  Return to login
+                  {t('auth.back_login')}
                 </button>
               ) : (
                 <button 
@@ -187,8 +205,8 @@ export default function Auth() {
                   className="text-[10px] uppercase tracking-widest font-semibold text-muted-fg hover:text-brand-gold transition-colors"
                 >
                   {isLogin 
-                    ? "Don't have an account? Sign up" 
-                    : "Already have an account? Sign in"}
+                    ? t('auth.no_account') 
+                    : t('auth.has_account')}
                 </button>
               )}
             </div>
