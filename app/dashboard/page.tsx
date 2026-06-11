@@ -154,7 +154,7 @@ export default function Dashboard() {
         if (typeof updateUserPassword !== 'function') {
           throw new Error('updateUserPassword is not available');
         }
-        await updateUserPassword(profileData.password, profileData.currentPassword || undefined);
+        await updateUserPassword(profileData.password,  undefined);
       }
 
       if (typeof updateProfile !== 'function') {
@@ -354,16 +354,6 @@ export default function Dashboard() {
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-border pt-4">
-              {/* <div>
-                <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">{t('dash.current_pass')}</label>
-                <input
-                  type="password"
-                  value={profileData.currentPassword}
-                  onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})}
-                  className="w-full bg-background border border-border p-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
-                  placeholder="Current password"
-                />
-              </div> */}
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">{t('dash.new_pass')}</label>
                 <input
@@ -399,13 +389,13 @@ export default function Dashboard() {
                 {isSavingProfile ? t('q.saving') : t('dash.save')}
               </button>
               
-              <button
+              {/* <button
                 type="button"
                 onClick={handleResetPassword}
                 className="border border-border text-foreground px-6 py-3 text-xs font-semibold uppercase tracking-widest hover:border-brand-gold hover:text-brand-gold transition-colors"
               >
                 {t('dash.reset_pass')}
-              </button>
+              </button> */}
             </div>
           </form>
         </section>
