@@ -1,9 +1,11 @@
-'use client';
+
 import { Metadata } from 'next';
 // Note: avoid using React hooks (like useTranslation) in generateMetadata
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const id = params?.id;
+export async function generateMetadata({ params }: { params: { id: string } | Promise<{ id: string }> }): Promise<Metadata> {
+  // params may be a Promise in some Next.js runtimes — await to unwrap safely
+  const resolvedParams = await params as { id?: string };
+  const id = resolvedParams?.id;
   const url = `${process.env.NEXTAUTH_URL ?? ''}/occasions/${id}`;
   return {
     title: 'Page: Occasions | StoryMelody Studio',

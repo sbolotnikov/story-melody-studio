@@ -1,7 +1,7 @@
  
 import { ImageResponse } from 'next/og'; 
 
-import logoImg from "@/assets/images/storymelody_logo_1780521281759.png";
+const logoImg = `${process.env.NEXTAUTH_URL}/images/storymelody_logo.png`;
 
 
  
@@ -30,7 +30,7 @@ export default async function Image() {
       >
          
           {(() => {
-            return <img width={800} height={600} alt={'About'} src={logoImg.src} />;
+            return <img width={800} height={600} alt={'About'} src={logoImg} />;
           })()}
 
         </div>

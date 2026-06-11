@@ -1,12 +1,12 @@
  
 import { ImageResponse } from 'next/og'; 
 import { StaticImageData } from 'next/image';
-import birthdayImg from "../../assets/images/birthday_hero_1780580660623.png";
-import weddingImg from "../../assets/images/wedding_hero_1780580674632.png";
-import anniversaryImg from "../../assets/images/anniversary_hero_1780580687961.png";
-import danceImg from "../../assets/images/dance_hero_1780580701564.png";
-import retirementImg from "../../assets/images/retirement_hero_1780580714256.png";
-import logoImg from "../assets/images/storymelody_logo_1780521281759.png";
+const birthdayImg = `${process.env.NEXTAUTH_URL}/images/birthday_hero_1780580660623.png`;
+const weddingImg = `${process.env.NEXTAUTH_URL}/images/wedding_hero_1780580674632.png`;
+const anniversaryImg = `${process.env.NEXTAUTH_URL}/images/anniversary_hero_1780580687961.png`;
+const danceImg = `${process.env.NEXTAUTH_URL}/images/dance_hero_1780580701564.png`;
+const retirementImg = `${process.env.NEXTAUTH_URL}/images/retirement_hero_1780580714256.png`;
+const logoImg = `${process.env.NEXTAUTH_URL}/images/storymelody_logo.png`;
 
 
 type ImageType = string | StaticImageData;

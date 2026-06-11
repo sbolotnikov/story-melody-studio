@@ -5,10 +5,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslation } from "react-i18next";
 import { ShareModal } from "../components/ShareModal";
-import heroImg from "../assets/images/storymelody_hero_1780519099425.png";
-import songImg from "../assets/images/product_song_1780519111946.png";
-import videoImg from "../assets/images/product_video_1780519123345.png";
-import portraitImg from "../assets/images/product_portrait_1780519136002.png";
+const heroImg = "/images/storymelody_hero_1780519099425.png";
+const songImg = "/images/product_song_1780519111946.png";
+const videoImg = "/images/product_video_1780519123345.png";
+const portraitImg = "/images/product_portrait_1780519136002.png";
 
 export default function Home() {
   const { t } = useTranslation();

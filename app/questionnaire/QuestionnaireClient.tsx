@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, Check, Upload, AlertCircle } from "lucide-react"
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ShareModal } from "../../components/ShareModal";
-import logoImg from "../../assets/images/storymelody_logo_1780521281759.png";
+const logoImg = "/images/storymelody_logo_1780521281759.png";
 import { useAuth } from "../../contexts/AuthContext";
 
 type FormValue = string | number | boolean | File | File[] | null | undefined | Record<string, unknown>;
@@ -134,7 +134,7 @@ export default function QuestionnaireClient() {
 
   if (isLoadingOrder) {
     return (
-      <div className="flex-grow flex items-center justify-center py-24 px-4 bg-background">
+      <div className="grow flex items-center justify-center py-24 px-4 bg-background">
         <div className="text-muted-fg font-semibold uppercase tracking-widest text-sm">Loading Order...</div>
       </div>
     );
@@ -157,7 +157,7 @@ export default function QuestionnaireClient() {
           </p>
           <button
             onClick={() => router.push("/")}
-            className="inline-flex items-center justify-center rounded-none bg-brand-gold px-8 py-4 text-xs font-bold text-brand-dark transition-all hover:bg-brand-gold/90 uppercase tracking-[0.1em]"
+            className="inline-flex items-center justify-center rounded-none bg-brand-gold px-8 py-4 text-xs font-bold text-brand-dark transition-all hover:bg-brand-gold/90 uppercase tracking-widest"
           >
             Return to Home
           </button>
@@ -268,7 +268,7 @@ export default function QuestionnaireClient() {
   };
 
   return (
-    <div className="flex-grow flex flex-col pt-16 pb-24 px-4 bg-muted/30">
+    <div className="grow flex flex-col pt-16 pb-24 px-4 bg-muted/30">
       {/* Progress Bar */}
       <div className="w-full max-w-4xl mx-auto mb-16 relative">
         <div className="h-1 bg-border w-full absolute top-1/2 -translate-y-1/2 rounded-full overflow-hidden">
@@ -279,7 +279,7 @@ export default function QuestionnaireClient() {
         </div>
       </div>
 
-      <div className="w-full max-w-4xl mx-auto flex-grow flex flex-col justify-between min-h-[500px] border border-border bg-background p-8 md:p-16 shadow-2xl relative">
+      <div className="w-full max-w-4xl mx-auto grow flex flex-col justify-between min-h-125 border border-border bg-background p-8 md:p-16 shadow-2xl relative">
         <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-10 flex gap-4">
           {orderId && user && (
             <Link href="/dashboard" className="inline-flex items-center text-xs font-semibold uppercase tracking-widest text-muted-fg hover:text-foreground transition-colors">
@@ -295,7 +295,7 @@ export default function QuestionnaireClient() {
             imageSrc={logoImg} 
           />
         </div>
-        <div className="flex-grow pt-10 sm:pt-0">
+        <div className="grow pt-10 sm:pt-0">
           <AnimatePresence mode="wait">
             {renderStep()}
           </AnimatePresence>
@@ -335,7 +335,7 @@ export default function QuestionnaireClient() {
                   <span className="text-muted-fg text-xs font-semibold uppercase">OR</span>
                   <Link
                     href="/auth"
-                    className="inline-flex items-center justify-center rounded-none border border-brand-gold text-brand-gold px-8 py-3 text-xs font-bold transition-all hover:bg-brand-gold hover:text-brand-dark uppercase tracking-[0.1em]"
+                    className="inline-flex items-center justify-center rounded-none border border-brand-gold text-brand-gold px-8 py-3 text-xs font-bold transition-all hover:bg-brand-gold hover:text-brand-dark uppercase tracking-widest"
                   >
                     Sign In
                   </Link>
@@ -347,14 +347,14 @@ export default function QuestionnaireClient() {
                   <button
                     onClick={() => handleNext(false)}
                     disabled={isSubmitting}
-                    className={`inline-flex items-center justify-center rounded-none bg-brand-gold px-8 py-3 text-xs font-bold text-brand-dark transition-all uppercase tracking-[0.1em] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-brand-gold/90'}`}
+                    className={`inline-flex items-center justify-center rounded-none bg-brand-gold px-8 py-3 text-xs font-bold text-brand-dark transition-all uppercase tracking-widest ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-brand-gold/90'}`}
                   >
                     {isSubmitting ? "Updating..." : "Update Existing"}
                   </button>
                   <button
                     onClick={() => handleNext(true)}
                     disabled={isSubmitting}
-                    className={`inline-flex items-center justify-center rounded-none border border-brand-gold text-brand-gold px-8 py-3 text-xs font-bold transition-all uppercase tracking-[0.1em] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-brand-gold hover:text-brand-dark'}`}
+                    className={`inline-flex items-center justify-center rounded-none border border-brand-gold text-brand-gold px-8 py-3 text-xs font-bold transition-all uppercase tracking-widest ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-brand-gold hover:text-brand-dark'}`}
                   >
                     {isSubmitting ? "Saving..." : "Save as New"}
                   </button>
@@ -363,7 +363,7 @@ export default function QuestionnaireClient() {
                 <button
                   onClick={() => handleNext(false)}
                   disabled={isSubmitting}
-                  className={`inline-flex items-center justify-center rounded-none bg-brand-gold px-8 py-3 text-xs font-bold text-brand-dark transition-all uppercase tracking-[0.1em] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-brand-gold/90'}`}
+                  className={`inline-flex items-center justify-center rounded-none bg-brand-gold px-8 py-3 text-xs font-bold text-brand-dark transition-all uppercase tracking-widest ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-brand-gold/90'}`}
                 >
                   {isSubmitting ? "Saving..." : currentStepIndex === STEPS.length - 1 ? "Submit" : "Continue"}
                   {currentStepIndex !== STEPS.length - 1 && <ArrowRight className="w-4 h-4 ml-2" />}

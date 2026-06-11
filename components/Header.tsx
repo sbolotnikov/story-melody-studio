@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
 
-import logoImg from "../assets/images/storymelody_logo_1780521281759.png";
+const logoImg = "/images/storymelody_logo_1780521281759.png";
 
 export function Header() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -17,7 +17,7 @@ export function Header() {
   const langMenuRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
-  const { user, profile, signInWithGoogle, logout = () => {} } = useAuth() ?? {};
+  const { user, profile, logout = () => {} } = useAuth() ?? {};
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

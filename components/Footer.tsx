@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from "react-i18next";
-import logoImg from "../assets/images/storymelody_logo_1780521281759.png";
+const logoImg = "/images/storymelody_logo_1780521281759.png";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -16,7 +16,7 @@ export function Footer() {
               <span className="font-serif text-2xl font-bold leading-none tracking-tight text-white">
                 Story<span className="text-brand-gold">Melody</span>
               </span>
-              <span className="text-[0.7rem] font-sans font-semibold uppercase tracking-[0.4em] text-gray-400 mt-1">
+              <span className="text-[0.7rem] font-sans font-semibold uppercase tracking-widest text-gray-400 mt-1">
                 Studio
               </span>
             </div>

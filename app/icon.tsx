@@ -29,7 +29,7 @@ export default function Icon() {
        
     }}
   >
-      <img width={32} height={32} alt={'Logo'} src={ 'https://story-melody-studio.vercel.app/favicon-32x32.png'}  />
+      <img width={32} height={32} alt={'Logo'} src={ `${process.env.NEXTAUTH_URL}/favicon-32x32.png`}  />
   </div>
   
     ),

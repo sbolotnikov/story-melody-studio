@@ -2,8 +2,8 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { ShareModal } from "../../components/ShareModal";
-import logoImg from "../../assets/images/storymelody_logo_1780521281759.png";
-import heroImg from "../../assets/images/storymelody_hero_1780519099425.png";
+const logoImg ="/images/storymelody_logo_1780521281759.png";
+const heroImg = "/images/storymelody_hero_1780519099425.png";
 
 type TranslationType = {
   title: string;

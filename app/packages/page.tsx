@@ -2,7 +2,7 @@
 import { useTranslation } from "react-i18next";
 import Link from 'next/link';
 import { ShareModal } from "../../components/ShareModal";
-import songImg from "../../assets/images/product_song_1780519111946.png";
+const songImg = "/images/product_song_1780519111946.png";
 
 export default function Packages() {
   const { t } = useTranslation();
@@ -21,8 +21,8 @@ export default function Packages() {
                 <div className="mb-2 text-muted-fg text-xs uppercase tracking-widest font-semibold">{t('pricing.pack1.type')}</div>
                 <div className="text-3xl font-serif font-bold mb-4">{t('pricing.pack1.title')}</div>
                 <div className="text-4xl font-serif text-brand-gold mb-6">$79</div>
-                <p className="text-muted-fg mb-8 text-sm flex-grow">{t('pricing.pack1.desc')}</p>
-                <Link href="/questionnaire?package=1" className="w-full block text-center rounded-none border border-brand-gold text-brand-gold px-4 py-3 text-xs font-semibold uppercase tracking-[0.1em] hover:bg-brand-gold hover:text-brand-dark transition-colors">{t('action.start')}</Link>
+                <p className="text-muted-fg mb-8 text-sm grow">{t('pricing.pack1.desc')}</p>
+                <Link href="/questionnaire?package=1" className="w-full block text-center rounded-none border border-brand-gold text-brand-gold px-4 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-brand-gold hover:text-brand-dark transition-colors">{t('action.start')}</Link>
               </div>
 
               <div className="border border-brand-gold/50 bg-brand-gold/5 p-8 flex flex-col relative transform md:-translate-y-4 shadow-xl">
@@ -30,16 +30,16 @@ export default function Packages() {
                 <div className="mb-2 text-brand-gold text-xs uppercase tracking-widest font-semibold">{t('pricing.pack2.type')}</div>
                 <div className="text-3xl font-serif font-bold mb-4">{t('pricing.pack2.title')}</div>
                 <div className="text-4xl font-serif text-brand-gold mb-6">$499</div>
-                <p className="text-muted-fg mb-8 text-sm flex-grow">{t('pricing.pack2.desc')}</p>
-                <Link href="/questionnaire?package=2" className="w-full block text-center rounded-none bg-brand-gold border border-brand-gold text-brand-dark px-4 py-3 text-xs font-semibold uppercase tracking-[0.1em] hover:bg-transparent hover:text-brand-gold transition-colors">{t('action.start')}</Link>
+                <p className="text-muted-fg mb-8 text-sm grow">{t('pricing.pack2.desc')}</p>
+                <Link href="/questionnaire?package=2" className="w-full block text-center rounded-none bg-brand-gold border border-brand-gold text-brand-dark px-4 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-transparent hover:text-brand-gold transition-colors">{t('action.start')}</Link>
               </div>
 
               <div className="border border-border bg-muted p-8 flex flex-col relative w-full h-full">
                 <div className="mb-2 text-muted-fg text-xs uppercase tracking-widest font-semibold">{t('pricing.pack3.type')}</div>
                 <div className="text-3xl font-serif font-bold mb-4">{t('pricing.pack3.title')}</div>
                 <div className="text-4xl font-serif text-brand-gold mb-6">$1499<span className="text-lg opacity-70">+</span></div>
-                <p className="text-muted-fg mb-8 text-sm flex-grow">{t('pricing.pack3.desc')}</p>
-                <Link href="/questionnaire?package=3" className="w-full block text-center rounded-none border border-brand-gold text-brand-gold px-4 py-3 text-xs font-semibold uppercase tracking-[0.1em] hover:bg-brand-gold hover:text-brand-dark transition-colors">{t('action.start')}</Link>
+                <p className="text-muted-fg mb-8 text-sm grow">{t('pricing.pack3.desc')}</p>
+                <Link href="/questionnaire?package=3" className="w-full block text-center rounded-none border border-brand-gold text-brand-gold px-4 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-brand-gold hover:text-brand-dark transition-colors">{t('action.start')}</Link>
               </div>
             </div>
          </div>

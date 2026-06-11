@@ -2,11 +2,11 @@
 import { useTranslation } from "react-i18next";
 import Link from 'next/link';
 import Image, { StaticImageData } from 'next/image';
-import birthdayImg from "../../assets/images/birthday_hero_1780580660623.png";
-import weddingImg from "../../assets/images/wedding_hero_1780580674632.png";
-import anniversaryImg from "../../assets/images/anniversary_hero_1780580687961.png";
-import danceImg from "../../assets/images/dance_hero_1780580701564.png";
-import retirementImg from "../../assets/images/retirement_hero_1780580714256.png";
+const birthdayImg = "/images/birthday_hero_1780580660623.png";
+const weddingImg = "/images/wedding_hero_1780580674632.png";
+const anniversaryImg = "/images/anniversary_hero_1780580687961.png";
+const danceImg = "/images/dance_hero_1780580701564.png";
+const retirementImg = "/images/retirement_hero_1780580714256.png";
 
 const occasionsKeys = ["birthdays", "weddings", "anniversaries", "dance", "retirements"];
 
@@ -42,6 +42,8 @@ export default function OccasionsList() {
               <Image
                 src={imageMap[occId]}
                 alt={t(`occasions.${occId}.title`)}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
