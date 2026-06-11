@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 
 interface UserProfile {
@@ -20,6 +20,7 @@ interface AuthContextType {
   signUpWithEmail: (email: string, pass: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updateProfile: (data: Partial<UserProfile>) => Promise<void>;
+  updateUserPassword: (newPassword: string, currentPassword?: string) => Promise<boolean | void>;
   logout: () => Promise<void>;
 }
 
@@ -35,17 +36,69 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     ? profile
     : sessionUser ?? null;
 
-  // Refresh session after OAuth sign-in so server-side session callback has a chance to populate DB-derived fields (id, role, etc.)
+  // Keep profile in sync with server-side user record after authentication.
+  // Avoid repeated refresh loops by tracking the last-synced user id and
+  // only calling updateSession once if necessary.
+  const syncedUserId = useRef<string | null>(null);
+  const calledUpdateSession = useRef(false);
+
   React.useEffect(() => {
-    try {
-      if (status === 'authenticated' && sessionUser && !sessionUser.id) {
-        updateSession?.().catch((err) =>
-          console.error('Failed to refresh session', err),
-        );
+    let cancelled = false;
+
+    const syncProfile = async () => {
+      try {
+        if (status !== 'authenticated' || !sessionUser) return;
+
+        const id = (sessionUser as any)?.id as string | undefined;
+
+        // If we've already synced for this user id, do nothing.
+        if (id && syncedUserId.current === id) return;
+
+        // If we have an id, fetch authoritative user record and stop.
+        if (id) {
+          try {
+            const res = await fetch(`/api/users/${id}`);
+            if (res.ok) {
+              const data = await res.json();
+              if (!cancelled) {
+                setProfile(data);
+                syncedUserId.current = id;
+              }
+              return;
+            }
+          } catch (e) {
+            console.warn('Failed to fetch user by id', e);
+          }
+        }
+
+        // No id available yet: try updateSession once to populate token fields,
+        // but avoid calling it repeatedly which can trigger loops.
+        if (!id && !calledUpdateSession.current) {
+          calledUpdateSession.current = true;
+          try {
+            await updateSession?.();
+          } catch (e) {
+            console.warn('updateSession failed:', e);
+          }
+          // Return and wait for the next effect invocation which may have id populated.
+          return;
+        }
+
+        // Fallback: set profile from sessionUser and mark as synced to avoid repeats.
+        if (!cancelled) {
+          setProfile(sessionUser);
+          syncedUserId.current = id ?? 'no-id';
+        }
+      } catch (err) {
+        console.error('Error syncing profile', err);
       }
-    } catch (err) {
-      console.error('Error checking session refresh', err);
-    }
+    };
+
+    void syncProfile();
+
+    return () => {
+      cancelled = true;
+    };
   }, [status, sessionUser, updateSession]);
 
   const updateProfile = async (data: Partial<UserProfile>) => {
@@ -113,7 +166,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     console.log("Password reset requested for:", email);
     alert("Password reset functionality needs to be implemented on the backend.");
   };
-
+  const updateUserPassword = async (newPassword: string, currentPassword?: string) => {
+    if (!session?.user) return;
+    try {
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: session.user.email, currentPassword: currentPassword || undefined, newPassword })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        throw new Error(err?.error || err?.message || 'Failed to update password');
+      }
+      // Force session refresh in case session fields changed
+      await updateSession?.();
+      return true;
+    } catch (err) {
+      console.error('Failed to update password', err);
+      throw err;
+    }
+  };
   const logout = async () => {
     await signOut({ callbackUrl: '/' });
   };
@@ -127,7 +199,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       signInWithEmail, 
       signUpWithEmail, 
       resetPassword, 
-      updateProfile, 
+      updateProfile,
+      updateUserPassword, 
       logout 
     }}>
       {children}

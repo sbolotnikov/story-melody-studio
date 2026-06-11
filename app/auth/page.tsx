@@ -42,12 +42,13 @@ export default function Auth() {
         await signUpWithEmail(email, password);
         router.push("/dashboard");
       }
-    } catch (err: any) {
-      console.error(err);
-      if (err.code === "auth/operation-not-allowed") {
+    } catch (err: unknown) {
+      const e = err as { code?: string; message?: string };
+      console.error(e);
+      if (e?.code === "auth/operation-not-allowed") {
         setErrorMsg("Email/Password authentication is not enabled. Please enable it in your Firebase Console under Authentication > Sign-in method.");
       } else {
-        setErrorMsg(err.message || "An error occurred");
+        setErrorMsg(e?.message || "An error occurred");
       }
     } finally {
       setLoading(false);
@@ -59,12 +60,13 @@ export default function Auth() {
       setLoading(true);
       await signInWithGoogle();
       router.push("/dashboard");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      if (err.code === "auth/operation-not-allowed") {
+      const e = err as { code?: string; message?: string };
+      if (e.code === "auth/operation-not-allowed") {
         setErrorMsg("Google authentication is not enabled. Please enable it in your Firebase Console under Authentication > Sign-in method.");
       } else {
-        setErrorMsg(err.message || "An error occurred");
+        setErrorMsg(e.message || "An error occurred");
       }
       setLoading(false);
     }
