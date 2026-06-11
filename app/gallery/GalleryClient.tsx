@@ -183,7 +183,11 @@ export default function GalleryClient() {
                 )}
               </div>
               <div className="p-6 grow flex flex-col">
-                <h3 className="text-xl font-serif font-bold mb-2">{item.title}</h3>
+                {item.type === 'song' ? (
+                  <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-xl font-serif font-bold mb-2 text-brand-gold hover:underline inline-block">{item.title}</a>
+                ) : (
+                  <h3 className="text-xl font-serif font-bold mb-2">{item.title}</h3>
+                )}
                 {item.description && <p className="text-sm text-muted-fg grow">{item.description}</p>}
                 
                 {profile?.role === 'admin' && (

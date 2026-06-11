@@ -17,6 +17,17 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'i.pravatar.cc',
       },
+      {
+        protocol: 'https',
+        hostname: 'i3.ytimg.com',
+        port: '',
+        pathname: '/vi/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'drive.google.com', 
+        pathname: '**',
+      },
     ],
   },
 };

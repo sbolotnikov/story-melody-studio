@@ -18,6 +18,8 @@ export function Header() {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
   const { user, profile, logout = () => {} } = useAuth() ?? {};
+  const currentAvatarSrc = user?.image || profile?.image;
+  const [avatarBroken, setAvatarBroken] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -123,10 +125,20 @@ export function Header() {
                     setIsUserMenuOpen(!isUserMenuOpen);
                   }
                 }}
-                className="p-2 text-muted-fg hover:text-foreground transition-colors rounded-full block"
+                className="p-1 text-muted-fg hover:text-foreground transition-colors rounded-full block"
                 aria-label="User menu"
               >
-                <User className="h-4 w-4" />
+                {/* Prefer rendering a circular avatar img when available; fall back to the User icon */}
+                { (user?.image || profile?.image) && !avatarBroken ? (
+                  <img
+                    src={user?.image || profile?.image}
+                    alt={user?.email || 'User avatar'}
+                    onError={() => setAvatarBroken(true)}
+                    className="w-8 h-8 rounded-full object-cover inline-block"
+                  />
+                ) : (
+                  <User className="h-4 w-4" />
+                ) }
               </Link>
               
               {isUserMenuOpen && user && (

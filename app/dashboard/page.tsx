@@ -32,6 +32,7 @@ type DashboardProduct = {
 type DashboardUser = {
   id: string;
   email?: string;
+
   phone?: string;
   role?: string;
   createdAt?: { toDate?: () => Date };
@@ -67,7 +68,7 @@ export default function Dashboard() {
   const [profileData, setProfileData] = useState(() => ({
     name: user?.name || '',
     phone: user?.phone || '',
-    avatarUrl: user?.image || '',
+    image: user?.image || '',
   }));
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [profileMessage, setProfileMessage] = useState('');
@@ -138,11 +139,13 @@ export default function Dashboard() {
         {
           name: profileData.name.trim(),
           phone: profileData.phone.trim(),
-          ...(profileData.avatarUrl.trim()
-            ? { image: profileData.avatarUrl.trim() }
+          ...(profileData.image.trim()
+            ? { image: profileData.image.trim() }
             : {}),
         };
       await updateProfile(profileUpdate);
+      // Reflect saved values in the local form state so UI updates immediately
+      setProfileData(prev => ({ ...prev, ...profileUpdate }));
       setProfileMessage('Profile updated successfully');
       setTimeout(() => setProfileMessage(''), 3000);
     } catch (err) {
@@ -270,49 +273,72 @@ export default function Dashboard() {
             className="max-w-2xl border border-border bg-background p-6 space-y-4"
             onSubmit={handleUpdateProfile}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={profileData.name}
-                  onChange={(e) =>
-                    setProfileData({ ...profileData, name: e.target.value })
-                  }
-                  className="w-full bg-background border border-border p-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
-                  placeholder="Your Name"
-                />
+            <div className="flex flex-col md:flex-row gap-6">
+              <div className="flex-shrink-0">
+                {/* Avatar preview */}
+                {profileData.image ? (
+                  <div className="w-28 h-28 rounded-full overflow-hidden border border-border bg-muted flex items-center justify-center">
+                    <img
+                      src={profileData.image}
+                      alt={profileData.name || 'Avatar'}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-28 h-28 rounded-full flex items-center justify-center bg-muted border border-border text-muted-fg font-semibold">
+                    {profileData.name ? profileData.name.split(' ').map(s=>s[0]).slice(0,2).join('') : 'U'}
+                  </div>
+                )}
+                <p className="text-xs text-muted-fg mt-2">Paste an image URL above to preview your avatar.</p>
               </div>
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  value={profileData.phone}
-                  onChange={(e) =>
-                    setProfileData({ ...profileData, phone: e.target.value })
-                  }
-                  className="w-full bg-background border border-border p-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
-                  placeholder="Your Phone"
-                />
+
+              <div className="flex-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      value={profileData.name}
+                      onChange={(e) =>
+                        setProfileData({ ...profileData, name: e.target.value })
+                      }
+                      className="w-full bg-background border border-border p-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
+                      placeholder="Your Name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">
+                      Phone
+                    </label>
+                    <input
+                      type="tel"
+                      value={profileData.phone}
+                      onChange={(e) =>
+                        setProfileData({ ...profileData, phone: e.target.value })
+                      }
+                      className="w-full bg-background border border-border p-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
+                      placeholder="Your Phone"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">
+                    Avatar URL
+                  </label>
+                  <input
+                    type="url"
+                    value={profileData.image}
+                    onChange={(e) =>
+                      setProfileData({ ...profileData, image: e.target.value })
+                    }
+                    className="w-full bg-background border border-border p-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
+                    placeholder="https://example.com/avatar.jpg"
+                  />
+                </div>
               </div>
-            </div>
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">
-                Avatar URL
-              </label>
-              <input
-                type="url"
-                value={profileData.avatarUrl}
-                onChange={(e) =>
-                  setProfileData({ ...profileData, avatarUrl: e.target.value })
-                }
-                className="w-full bg-background border border-border p-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
-                placeholder="https://example.com/avatar.jpg"
-              />
             </div>
             <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-border mt-6">
               <button

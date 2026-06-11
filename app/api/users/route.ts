@@ -19,7 +19,13 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { id, email, role, phone, name } = body;
+    const { id, email, role, phone, name, image } = body;
+    
+    // normalize empty strings to undefined so Prisma won't overwrite unintentionally
+    const safePhone = phone === undefined || phone === null || phone === '' ? undefined : phone;
+    const safeName = name === undefined || name === null || name === '' ? undefined : name;
+    const safeRole = role === undefined || role === null || role === '' ? undefined : role;
+    const safeImage = image === undefined || image === null || image === '' ? undefined : image;
     
     let user;
     if (id && id.length === 24 && /^[0-9a-fA-F]+$/.test(id)) {
@@ -29,9 +35,10 @@ export async function POST(request: Request) {
           where: { id },
           data: {
             email,
-            role: role || undefined,
-            phone: phone || undefined,
-            name: name || undefined,
+            role: safeRole,
+            phone: safePhone,
+            name: safeName,
+            image: safeImage,
           },
         });
       } else {
@@ -41,6 +48,7 @@ export async function POST(request: Request) {
             role: role || "user",
             phone: phone || "",
             name: name || "",
+            image: image || undefined,
           },
         });
       }
@@ -49,15 +57,17 @@ export async function POST(request: Request) {
       user = await prisma.user.upsert({
         where: { email },
         update: {
-          role: role || undefined,
-          phone: phone || undefined,
-          name: name || undefined,
+          role: safeRole,
+          phone: safePhone,
+          name: safeName,
+          image: safeImage,
         },
         create: {
           email,
           role: role || "user",
           phone: phone || "",
           name: name || "",
+          image: image || undefined,
         },
       });
     }

@@ -8,9 +8,8 @@ const danceImg = `${process.env.NEXTAUTH_URL}/images/dance_hero_1780580701564.pn
 const retirementImg = `${process.env.NEXTAUTH_URL}/images/retirement_hero_1780580714256.png`;
 const logoImg = `${process.env.NEXTAUTH_URL}/images/storymelody_logo.png`;
 
-
-type ImageType = string | StaticImageData;
-const imageMap: Record<string, ImageType> = {
+ 
+const imageMap: Record<string, string> = {
   birthdays: birthdayImg,
   weddings: weddingImg,
   anniversaries: anniversaryImg,
