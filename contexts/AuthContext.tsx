@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
+import React, { createContext, useContext, useState, useRef } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 
 interface UserProfile {
@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         if (status !== 'authenticated' || !sessionUser) return;
 
-        const id = (sessionUser as any)?.id as string | undefined;
+        const id = (sessionUser as UserProfile)?.id as string | undefined;
 
         // If we've already synced for this user id, do nothing.
         if (id && syncedUserId.current === id) return;
