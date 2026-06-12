@@ -28,7 +28,7 @@ export default async function RootLayout({ children }: LayoutProps) {
         <meta property="og:description" content="Turn your story into a song, film, and art." />
          <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <body>
+      <body suppressHydrationWarning={true}>
         <Providers session={session} locale={locale}>
           <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-brand-gold selection:text-white">
             <LanguageClient />

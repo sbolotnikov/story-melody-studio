@@ -1,7 +1,7 @@
  
 import { ImageResponse } from 'next/og'; 
 
-const logoImg = `${process.env.NEXTAUTH_URL}/images/storymelody_logo.png`;
+const logoImg = `${process.env.NEXTAUTH_URL}/images/storymelody_logo_1780521281759.png`;
 
 
  

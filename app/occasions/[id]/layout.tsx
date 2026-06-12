@@ -7,11 +7,12 @@ export async function generateMetadata({ params }: { params: { id: string } | Pr
   const resolvedParams = await params as { id?: string };
   const id = resolvedParams?.id;
   const url = `${process.env.NEXTAUTH_URL ?? ''}/occasions/${id}`;
+  const imageUrl = `${process.env.NEXTAUTH_URL ?? ''}/occasions/${id}/opengraph-image`;
   return {
     title: 'Page: Occasions | StoryMelody Studio',
     description:
       'Discover our special occasions and how we can help you create personalized songs, videos, and portraits for unforgettable life moments.',
-    openGraph: { title: 'Page: Occasions | Story Melody Studio', url },
+    openGraph: { title: 'Page: Occasions | Story Melody Studio', url, images: [imageUrl] },
   };
 }
 
