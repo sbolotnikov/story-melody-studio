@@ -1,7 +1,7 @@
  
 import { ImageResponse } from 'next/og'; 
 
-const logoImg = `${process.env.NEXTAUTH_URL}/images/storymelody_logo_1780521281759.png`;
+const logoImg = `${process.env.NEXTAUTH_URL}/images/storymelody_logo-Small.jpg`;
 
 export const size = {
   width: 1200,
@@ -51,7 +51,7 @@ export default async function Image() {
           flexDirection: 'column',
         }}
       >
-        <img width={800} height={600} alt={'About'} src={imgSrc} style={{ objectFit: 'cover' }} />
+        <img width={1200} height={630} alt={'About'} src={imgSrc} style={{ objectFit: 'cover' }} />
       </div>
     ),
     {

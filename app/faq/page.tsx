@@ -150,10 +150,13 @@ export default function FAQ() {
   ];
 
   return (
-    <div className="flex-grow bg-background">
+    <div className="grow bg-background">
       <Helmet>
         <title>{t("faq.title")} - StoryMelody</title>
         <meta name="description" content={t("faq.title")} />
+        <meta property="og:title" content={`${t("faq.title")} - StoryMelody`} />
+        <meta property="og:description" content={t("faq.title")} />
+        <meta property="og:image" content="/og-image.jpg" />
       </Helmet>
 
       {/* Hero Section */}
