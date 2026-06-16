@@ -1,10 +1,10 @@
 'use client';
-
 import { ArrowRight, Music, Video, Image as ImageIcon, Star, Play, Heart, Gift, Camera, ChevronRight } from "lucide-react";
 import Link from 'next/link';
-import Image from 'next/image';
 import { useTranslation } from "react-i18next";
 import { ShareModal } from "../components/ShareModal";
+import { Helmet } from "react-helmet-async";
+import Image from "next/image";
 const heroImg = "/images/storymelody_hero_1780519099425.png";
 const songImg = "/images/product_song_1780519111946.png";
 const videoImg = "/images/product_video_1780519123345.png";
@@ -14,9 +14,16 @@ export default function Home() {
   const { t } = useTranslation();
   return (
     <div className="w-full grow flex flex-col">
+      <Helmet>
+        <title>StoryMelody</title>
+        <meta name="description" content={t('seo.home_desc')} />
+        <meta property="og:title" content="StoryMelody" />
+        <meta property="og:description" content={t('seo.home_desc')} />
+        {/* <meta property="og:image" content={heroImg} /> */}
+      </Helmet>
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-32">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-12 lg:gap-8 items-center flex flex-col lg:grid lg:grid-cols-2">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 12-col-grid gap-12 lg:gap-8 items-center flex flex-col lg:grid lg:grid-cols-2">
           
           <div className="space-y-8 relative z-10 w-full text-center lg:text-left">
             <div className="inline-flex items-center space-x-3 text-xs font-serif text-brand-gold uppercase tracking-[0.2em] w-fit mx-auto lg:mx-0">
@@ -34,7 +41,7 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-              <Link href="/questionnaire" className="w-full sm:w-auto inline-flex items-center justify-center rounded-none bg-brand-gold px-8 py-4 text-xs font-bold text-brand-dark transition-all hover:bg-brand-gold/90 uppercase tracking-[0.1em]">
+              <Link href="/questionnaire" className="w-full sm:w-auto inline-flex items-center justify-center rounded-none bg-brand-gold px-8 py-4 text-xs font-bold text-brand-dark transition-all hover:bg-brand-gold/90 uppercase tracking-widest">
                 {t('action.start')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -53,7 +60,7 @@ export default function Home() {
               <div className="flex -space-x-3">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden">
-                    <Image src={`https://i.pravatar.cc/100?img=${i+10}`} alt={`Customer ${i}`} className="w-full h-full object-cover" width={40} height={40} />
+                    <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt={`Customer ${i}`} className="w-full h-full object-cover" />
                   </div>
                 ))}
               </div>
@@ -64,16 +71,10 @@ export default function Home() {
           <div className="relative w-full aspect-4/5 lg:aspect-square mt-12 lg:mt-0 max-w-md lg:max-w-none mx-auto">
             <div className="absolute inset-0 bg-linear-to-tr from-brand-gold/20 to-transparent blur-3xl rounded-full" />
             <div className="relative h-full w-full rounded-2xl overflow-hidden border border-border/50 shadow-2xl p-2 bg-background/50 backdrop-blur-sm">
-              <Image
-                src={heroImg}
-                alt="StoryMelody Hero"
-                className="w-full h-full object-cover rounded-xl"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+              <Image src={heroImg} alt="StoryMelody Hero" className="w-full h-full object-cover rounded-xl" fill/>
               <div className="absolute bottom-8 left-8 right-8 bg-background/90 backdrop-blur-md p-6 rounded-none border border-border shadow-xl">
                 <p className="font-serif italic text-lg text-foreground">
-                  {"They captured my parents' 50-year love story perfectly. We cried watching the video."}
+                  &ldquo;They captured my parents&apos; 50-year love story perfectly. We cried watching the video.&rdquo;
                 </p>
                 <div className="mt-4 flex items-center justify-between">
                   <div>
@@ -126,7 +127,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="group relative border border-border bg-muted flex flex-col items-start overflow-hidden">
               <div className="w-full aspect-4/3 overflow-hidden">
-                <Image src={songImg} alt="Personalized Song" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" fill sizes="(max-width: 768px) 100vw, 33vw" />
+                <Image src={songImg} alt="Personalized Song" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" fill />
               </div>
               <div className="p-8 w-full flex flex-col grow">
                 <Music className="w-6 h-6 mb-4 text-brand-gold" />
@@ -140,7 +141,7 @@ export default function Home() {
 
             <div className="group relative border border-border bg-muted flex flex-col items-start overflow-hidden">
               <div className="w-full aspect-4/3 overflow-hidden">
-                <Image src={videoImg} alt="Cinematic Music Videos" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" fill sizes="(max-width: 768px) 100vw, 33vw" />
+                <Image src={videoImg} alt="Cinematic Music Videos" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" fill />
               </div>
               <div className="p-8 w-full flex flex-col grow">
                 <Video className="w-6 h-6 mb-4 text-brand-gold" />
@@ -154,9 +155,9 @@ export default function Home() {
 
             <div className="group relative border border-border bg-muted flex flex-col items-start overflow-hidden">
               <div className="w-full aspect-4/3 overflow-hidden">
-                <Image src={portraitImg} alt="Custom Portraits" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" fill sizes="(max-width: 768px) 100vw, 33vw" />
+                <Image src={portraitImg} alt="Custom Portraits" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" fill/>
               </div>
-              <div className="p-8 w-full flex flex-col grow">
+              <div className="p-8 w-full h-full flex flex-col grow">
                 <ImageIcon className="w-6 h-6 mb-4 text-brand-gold" />
                 <h3 className="text-2xl font-serif font-bold mb-3">{t('products.portrait.title')}</h3>
                 <p className="text-muted-fg mb-6 grow">{t('products.portrait.desc')}</p>
@@ -217,7 +218,7 @@ export default function Home() {
         <div className="relative z-10 w-full max-w-4xl mx-auto px-4 text-center">
            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 text-brand-dark">{t('cta.title')}</h2>
            <p className="text-lg md:text-xl mb-10 opacity-90 max-w-2xl mx-auto text-brand-dark font-medium">{t('cta.desc')}</p>
-           <Link href="/questionnaire" className="inline-flex items-center justify-center rounded-none bg-brand-dark text-brand-gold px-10 py-5 text-sm font-bold uppercase tracking-widest shadow-xl hover:bg-brand-dark/90 hover:scale-[1.02] transition-all">
+           <Link href="/questionnaire" className="inline-flex items-center justify-center rounded-none bg-brand-dark text-brand-gold px-10 py-5 text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-brand-dark/90 hover:scale-[1.02] transition-all">
              {t('action.start')}
            </Link>
         </div>

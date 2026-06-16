@@ -26,11 +26,11 @@ export default async function RootLayout({ children }: LayoutProps) {
         <meta name="description" content="Turn your story into a song, film, and art. Personalized creative gifts for birthdays, weddings, anniversaries, and unforgettable life moments." />
         <meta property="og:title" content="StoryMelody Studio" />
         <meta property="og:description" content="Turn your story into a song, film, and art." />
-        <meta property="og:image" content={`${process.env.NEXTAUTH_URL}/images/storymelody_logo-Small.jpg`} />
+        <meta property="og:image" content={`${process.env.NEXTAUTH_URL}/images/storymelody_logo-Small.png`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="StoryMelody Studio" />
         <meta name="twitter:description" content="Turn your story into a song, film, and art." />
-        <meta name="twitter:image" content={`${process.env.NEXTAUTH_URL}/images/storymelody_logo-Small.jpg`} />
+        <meta name="twitter:image" content={`${process.env.NEXTAUTH_URL}/images/storymelody_logo-Small.png`} />
         <link rel="icon" href="/favicon.ico" />
          <link rel="manifest" href="/site.webmanifest" />
       </head>

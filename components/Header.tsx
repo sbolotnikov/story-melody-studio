@@ -87,6 +87,8 @@ export function Header() {
             <Link href="/gallery" className="hover:text-foreground transition-colors">{t('nav.gallery')}</Link>
             <Link href="/about" className="hover:text-foreground transition-colors">{t('nav.about')}</Link>
             <Link href="/faq" className="hover:text-foreground transition-colors">{t('nav.faq')}</Link>
+            <Link href="/reviews" className="hover:text-foreground transition-colors">{t('nav.reviews')}</Link>
+
           </nav>
 
           <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-6 shrink-0">
@@ -233,6 +235,7 @@ export function Header() {
                 <Link href="/gallery" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-foreground transition-colors block">{t('nav.gallery')}</Link>
                 <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-foreground transition-colors block">{t('nav.about')}</Link>
                 <Link href="/faq" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-foreground transition-colors block">{t('nav.faq')}</Link>
+                <Link href="/reviews" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-foreground transition-colors block">{t('nav.reviews')}</Link>
                 <Link
                   href="/questionnaire"
                   onClick={() => setIsMobileMenuOpen(false)}

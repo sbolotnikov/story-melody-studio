@@ -6,7 +6,7 @@ const weddingImg = `${process.env.NEXTAUTH_URL}/images/wedding_hero.jpg`;
 const anniversaryImg = `${process.env.NEXTAUTH_URL}/images/anniversary_hero.jpg`;
 const danceImg = `${process.env.NEXTAUTH_URL}/images/dance_hero.jpg`;
 const retirementImg = `${process.env.NEXTAUTH_URL}/images/retirement_hero.jpg`;
-const logoImg = `${process.env.NEXTAUTH_URL}/images/storymelody_logo-Small.jpg`;
+const logoImg = `${process.env.NEXTAUTH_URL}/images/storymelody_logo-Small.png`;
 
  
 const imageMap: Record<string, string> = {
