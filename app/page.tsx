@@ -125,9 +125,9 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="group relative border border-border bg-muted flex flex-col items-start overflow-hidden">
-              <div className="w-full aspect-4/3 overflow-hidden">
-                <Image src={songImg} alt="Personalized Song" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" fill />
+            <div className="group relative border border-border bg-muted rounded-lg flex flex-col items-start overflow-hidden">
+              <div className="w-full aspect-4/3 overflow-hidden relative">
+                <Image src={songImg} alt="Personalized Song" className="w-full object-cover group-hover:scale-105 transition-transform duration-700" fill />
               </div>
               <div className="p-8 w-full flex flex-col grow">
                 <Music className="w-6 h-6 mb-4 text-brand-gold" />
@@ -139,9 +139,9 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="group relative border border-border bg-muted flex flex-col items-start overflow-hidden">
-              <div className="w-full aspect-4/3 overflow-hidden">
-                <Image src={videoImg} alt="Cinematic Music Videos" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" fill />
+            <div className="group relative border border-border rounded-lg bg-muted flex flex-col items-start overflow-hidden">
+              <div className="w-full aspect-4/3 overflow-hidden relative">
+                <Image src={videoImg} alt="Cinematic Music Videos" className="w-full object-cover group-hover:scale-105 transition-transform duration-700" fill />
               </div>
               <div className="p-8 w-full flex flex-col grow">
                 <Video className="w-6 h-6 mb-4 text-brand-gold" />
@@ -153,11 +153,11 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="group relative border border-border bg-muted flex flex-col items-start overflow-hidden">
-              <div className="w-full aspect-4/3 overflow-hidden">
-                <Image src={portraitImg} alt="Custom Portraits" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" fill/>
+            <div className="group relative border border-border bg-muted rounded-lg flex flex-col items-start overflow-hidden">
+              <div className="w-full aspect-4/3 overflow-hidden relative">
+                <Image src={portraitImg} alt="Custom Portraits" className="w-full object-cover group-hover:scale-105 transition-transform duration-700" fill/>
               </div>
-              <div className="p-8 w-full h-full flex flex-col grow">
+              <div className="p-8 w-full flex flex-col grow">
                 <ImageIcon className="w-6 h-6 mb-4 text-brand-gold" />
                 <h3 className="text-2xl font-serif font-bold mb-3">{t('products.portrait.title')}</h3>
                 <p className="text-muted-fg mb-6 grow">{t('products.portrait.desc')}</p>
@@ -184,7 +184,7 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="border border-border bg-muted p-8 flex flex-col relative w-full h-full">
+              <div className="border border-border rounded-lg bg-muted p-8 flex flex-col relative w-full h-full">
                 <div className="mb-2 text-muted-fg text-xs uppercase tracking-widest font-semibold">{t('pricing.pack1.type')}</div>
                 <div className="text-3xl font-serif font-bold mb-4">{t('pricing.pack1.title')}</div>
                 <div className="text-4xl font-serif text-brand-gold mb-6">$79</div>
@@ -192,7 +192,7 @@ export default function Home() {
                 <Link href="/packages" className="w-full block text-center rounded-none border border-brand-gold text-brand-gold px-4 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-brand-gold hover:text-brand-dark transition-colors">{t('action.learn_more')}</Link>
               </div>
 
-              <div className="border border-brand-gold/50 bg-brand-gold/5 p-8 flex flex-col relative transform md:-translate-y-4 shadow-xl">
+              <div className="border border-brand-gold/50 rounded-lg bg-brand-gold/5 p-8 flex flex-col relative transform md:-translate-y-4 shadow-xl">
                 <div className="absolute top-0 right-0 bg-brand-gold text-brand-dark px-3 py-1 text-[10px] uppercase tracking-widest font-bold">{t('action.best_seller')}</div>
                 <div className="mb-2 text-brand-gold text-xs uppercase tracking-widest font-semibold">{t('pricing.pack2.type')}</div>
                 <div className="text-3xl font-serif font-bold mb-4">{t('pricing.pack2.title')}</div>
@@ -201,7 +201,7 @@ export default function Home() {
                 <Link href="/packages" className="w-full block text-center rounded-none bg-brand-gold border border-brand-gold text-brand-dark px-4 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-transparent hover:text-brand-gold transition-colors">{t('action.learn_more')}</Link>
               </div>
 
-              <div className="border border-border bg-muted p-8 flex flex-col relative w-full h-full">
+              <div className="border border-border rounded-lg bg-muted p-8 flex flex-col relative w-full h-full">
                 <div className="mb-2 text-muted-fg text-xs uppercase tracking-widest font-semibold">{t('pricing.pack3.type')}</div>
                 <div className="text-3xl font-serif font-bold mb-4">{t('pricing.pack3.title')}</div>
                 <div className="text-4xl font-serif text-brand-gold mb-6">$1499<span className="text-lg opacity-70">+</span></div>
