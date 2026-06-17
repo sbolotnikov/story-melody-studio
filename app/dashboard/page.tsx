@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { Navigate, Link } from "react-router-dom";
+import Link from 'next/link';
 import bcrypt from 'bcryptjs';
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
@@ -217,7 +217,7 @@ export default function Dashboard() {
   }
 
   if (!user) {
-    return <Navigate to="/auth" />;
+    return redirect("/auth");
   }
 
   const handleSavePhone = async (e: React.FormEvent) => {
@@ -860,7 +860,7 @@ export default function Dashboard() {
                            {expandedOrders[order.id] ? t('dash.hide_details') : t('dash.view_details')}
                          </button>
                           <Link
-                            to={`/questionnaire?orderId=${order.id}`}
+                            href={`/questionnaire?orderId=${order.id}`}
                             className="text-xs font-semibold uppercase tracking-widest text-brand-gold hover:text-brand-gold/80 transition-colors py-2 text-center border border-brand-gold/20 hover:border-brand-gold mt-1"
                           >
                             {t('dash.edit_q')}
@@ -1301,5 +1301,9 @@ export async function fetchData(): Promise<void> {
     console.error('Failed to reload page for data refresh', err);
     return Promise.resolve();
   }
+}
+
+function redirect(arg0: string) {
+  throw new Error("Function not implemented.");
 }
 
