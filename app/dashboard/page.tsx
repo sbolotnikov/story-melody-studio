@@ -597,6 +597,25 @@ export default function Dashboard() {
         <section>
           <h2 className="text-2xl font-serif font-bold mb-6">{t('dash.settings')}</h2>
           <form className="max-w-2xl border border-border bg-background p-6 space-y-4" onSubmit={handleUpdateProfile}>
+                        <div className="w-full shrink-0 flex items-center justify-center gap-6">
+                {/* Avatar preview */}
+                {profileData.avatarUrl ? (
+                  <div className="w-28 h-28 rounded-full overflow-hidden border border-border bg-muted flex items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={profileData.avatarUrl}
+                      alt={profileData.name || 'Avatar'}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-28 h-28 rounded-full flex items-center justify-center bg-muted border border-border text-muted-fg font-semibold">
+                    {profileData.name ? profileData.name.split(' ').map(s=>s[0]).slice(0,2).join('') : 'U'}
+                  </div>
+                )}
+                {/* <p className="text-xs text-muted-fg mt-2">Paste an image URL above to preview your avatar.</p> */}
+              </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-widest text-muted-fg mb-2">{t('dash.name')}</label>
