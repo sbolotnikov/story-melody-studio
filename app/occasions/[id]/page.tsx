@@ -36,7 +36,7 @@ export default function OccasionDetail() {
       return;
     }
     if (id && occasionsKeys.includes(id)) {
-      const title = t(`occasions.${id}.title`) + " | StoryMelody Studio";
+      const title = t('nav.occasions')+' | '+t(`occasions.${id}.title`) + " | StoryMelody Studio";
       const desc = t(`occasions.${id}.desc`);
       const imgEntry = imageMap[id];
       const imgUrl = window.location.origin + (typeof imgEntry === 'string' ? imgEntry : imgEntry.src);
@@ -65,7 +65,7 @@ export default function OccasionDetail() {
       
       document.documentElement.lang = i18n.language;
     }
-  }, [id, t, i18n.language]);
+  }, [id]);
 
   const handleShare = async () => {
     if (!id) return;

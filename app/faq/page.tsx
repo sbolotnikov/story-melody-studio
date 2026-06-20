@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import  Link  from "next/link";
 import { Helmet } from "react-helmet-async";
 import { CheckCircle2, MessageSquare, CreditCard, Palette, PenTool, Gift, Users } from "lucide-react";
+import Image from "next/image";
 
 export default function FAQ() {
   const { t } = useTranslation();
@@ -156,7 +157,7 @@ export default function FAQ() {
         <meta name="description" content={t("faq.title")} />
         <meta property="og:title" content={`${t("faq.title")} - StoryMelody`} />
         <meta property="og:description" content={t("faq.title")} />
-        <meta property="og:image" content="/og-image.jpg" />
+        <meta property="og:image" content="/images/faq_hero_banner.jpg" />
       </Helmet>
 
       {/* Hero Section */}
@@ -168,6 +169,15 @@ export default function FAQ() {
           <p className="text-xl text-muted-fg max-w-2xl mx-auto leading-relaxed">
             {t("nav.faq_desc")}
           </p>
+           <div className="w-full aspect-video rounded-md overflow-hidden relative border border-brand-gold/20 shadow-2xl">
+             <Image 
+               src={'/images/faq_hero_banner.jpg'} 
+               alt="FAQ Hero Banner" 
+               referrerPolicy="no-referrer"
+               className="w-full h-full object-cover"
+               fill
+             />
+          </div>
         </div>
       </section>
 

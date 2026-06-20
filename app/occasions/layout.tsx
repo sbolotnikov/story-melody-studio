@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { Metadata } from 'next';
 export const metadata: Metadata = {
   // read route params
@@ -7,12 +8,12 @@ export const metadata: Metadata = {
 //   const previousImages = (await parent).openGraph?.images || [];
  
     openGraph: { 
-      title: "Page: Occasions | Story Melody Studio", 
+      title: `Page: ${t('nav.occasions')} | Story Melody Studio`, 
       url: `${process.env.NEXTAUTH_URL}/occasions`,
-      images: [ `${process.env.NEXTAUTH_URL}/occasions/opengraph-image` ]
+      images: [ `${process.env.NEXTAUTH_URL}/images/storymelody_logo - Small.png` ]
     },
-    description: "Discover our special occasions and how we can help you create personalized songs, videos, and portraits for unforgettable life moments.",
-    title: "Page: Occasions | StoryMelody Studio" 
+    description: t('occasions.main_desc'),
+    title: `Page: ${t('nav.occasions')} | Story Melody Studio`
 
 };
 
