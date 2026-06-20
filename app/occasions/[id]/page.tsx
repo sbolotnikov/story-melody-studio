@@ -15,7 +15,7 @@ const occasionsKeys = ["birthdays", "weddings", "anniversaries", "dance", "retir
 
 // Use a flexible type for imported images to avoid StaticImageData type errors
 type ImageType = string | StaticImageData;
-const imageMap: Record<string, ImageType> = {
+const imageMap: Record<string, string> = {
   birthdays: birthdayImg,
   weddings: weddingImg,
   anniversaries: anniversaryImg,
@@ -39,7 +39,7 @@ export default function OccasionDetail() {
       const title = t('nav.occasions')+' | '+t(`occasions.${id}.title`) + " | StoryMelody Studio";
       const desc = t(`occasions.${id}.desc`);
       const imgEntry = imageMap[id];
-      const imgUrl = window.location.origin + (typeof imgEntry === 'string' ? imgEntry : imgEntry.src);
+      const imgUrl = process.env.NEXTAUTH_URL+imgEntry;
       const url = window.location.origin + `/occasions/${id}?lng=${i18n.language}`;
       
       document.title = title;
@@ -65,7 +65,7 @@ export default function OccasionDetail() {
       
       document.documentElement.lang = i18n.language;
     }
-  }, [i18n.language, id, router, t]);
+  }, [i18n.language, id]);
 
   const handleShare = async () => {
     if (!id) return;
@@ -74,7 +74,7 @@ export default function OccasionDetail() {
       title: t(`occasions.${id}.title`) + " | StoryMelody Studio",
       text: t(`occasions.${id}.desc`),
       url: shareUrl,
-      image: window.location.origin + (typeof imageMap[id] === 'string' ? imageMap[id] : imageMap[id].src)
+      image: process.env.NEXTAUTH_URL + imageMap[id] 
     };
     
     if (navigator.share) {
