@@ -1286,8 +1286,8 @@ export default function Dashboard() {
       {activePaymentOrder && activePaymentInvoice && (
         <PaymentModal
           isOpen={true}
+          onWait={(i) => setIsLoadingData(i)}
           order={activePaymentOrder}
-          invoice={{ ...activePaymentInvoice, productsJson: activePaymentInvoice.productsJson ?? '' }}
           onClose={() => { setActivePaymentOrder(null); setActivePaymentInvoice(null); }}
           onSuccess={fetchData}
         />
@@ -1325,4 +1325,3 @@ export async function fetchData(): Promise<void> {
 function redirect(arg0: string) {
   throw new Error("Function not implemented.");
 }
-
