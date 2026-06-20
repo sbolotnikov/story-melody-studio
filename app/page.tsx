@@ -15,11 +15,11 @@ export default function Home() {
   return (
     <div className="w-full grow flex flex-col">
       <Helmet>
-        <title>StoryMelody</title>
+        <title>Story Melody Studio</title>
         <meta name="description" content={t('seo.home_desc')} />
-        <meta property="og:title" content="StoryMelody" />
+        <meta property="og:title" content="Story Melody Studio" />
         <meta property="og:description" content={t('seo.home_desc')} />
-        {/* <meta property="og:image" content={heroImg} /> */}
+        <meta property="og:image" content={'/images/storymelody_hero.jpg'} />
       </Helmet>
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-32">

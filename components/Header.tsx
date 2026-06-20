@@ -3,6 +3,7 @@ import { Moon, Sun, ChevronDown, User, Menu, X } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
@@ -10,6 +11,7 @@ import { motion, AnimatePresence } from "motion/react";
 const logoImg = "/images/storymelody_logo_1780521281759.png";
 
 export function Header() {
+  const router = useRouter();
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -35,7 +37,13 @@ export function Header() {
   }, []);
 
   const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
+    const url = new URL(window.location.href);
+    url.searchParams.set("lng", lng);
+
+    i18n.changeLanguage(lng).catch((error) => {
+      console.error("i18n changeLanguage failed", error);
+    });
+    router.replace(`${url.pathname}${url.search}${url.hash}`, { scroll: false });
     setIsLangMenuOpen(false);
   };
 

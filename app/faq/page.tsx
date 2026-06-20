@@ -154,9 +154,9 @@ export default function FAQ() {
     <div className="grow bg-background">
       <Helmet>
         <title>{t("faq.title")} - StoryMelody</title>
-        <meta name="description" content={t("faq.title")} />
+        <meta name="description" content={t("nav.faq_desc")} />
         <meta property="og:title" content={`${t("faq.title")} - StoryMelody`} />
-        <meta property="og:description" content={t("faq.title")} />
+        <meta property="og:description" content={t("nav.faq_desc")} />
         <meta property="og:image" content="/images/faq_hero_banner.jpg" />
       </Helmet>
 

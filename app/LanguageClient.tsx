@@ -1,18 +1,31 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
-export default function LanguageClient() {
+const supportedLanguages = new Set(["en", "es", "fr", "ru", "it", "pl", "de"]);
+
+export default function LanguageClient({ fallbackLocale = "en" }: { fallbackLocale?: string }) {
   const { i18n } = useTranslation();
+  const searchParams = useSearchParams();
+  const queryLocale = searchParams.get("lng")?.toLowerCase();
+  const initialized = useRef(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const lng = params.get('lng');
-    if (lng) {
-      i18n.changeLanguage(lng);
+    const requestedLocale =
+      queryLocale || (initialized.current ? i18n.resolvedLanguage : fallbackLocale.toLowerCase()) || "en";
+    const locale = supportedLanguages.has(requestedLocale) ? requestedLocale : "en";
+
+    if (i18n.resolvedLanguage !== locale) {
+      i18n.changeLanguage(locale).catch((error) => {
+        console.error("i18n changeLanguage failed", error);
+      });
     }
-  }, [i18n]);
+
+    document.documentElement.lang = locale;
+    initialized.current = true;
+  }, [fallbackLocale, i18n, queryLocale]);
 
   return null;
 }

@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { useEffect, useState } from "react";
 import { Share2, Check } from "lucide-react";
 import Image, { StaticImageData } from 'next/image';
-const birthdayImg = "/images/birthday_hero_1780580660623.png";
-const weddingImg = "/images/wedding_hero_1780580674632.png";
-const anniversaryImg = "/images/anniversary_hero_1780580687961.png";
-const danceImg = "/images/dance_hero_1780580701564.png";
-const retirementImg = "/images/retirement_hero_1780580714256.png";
+const birthdayImg = "/images/birthday_hero.jpg";
+const weddingImg = "/images/wedding_hero.jpg";
+const anniversaryImg = "/images/anniversary_hero.jpg";
+const danceImg = "/images/dance_hero.jpg";
+const retirementImg = "/images/retirement_hero.jpg";
 
 const occasionsKeys = ["birthdays", "weddings", "anniversaries", "dance", "retirements"];
 
@@ -65,7 +65,7 @@ export default function OccasionDetail() {
       
       document.documentElement.lang = i18n.language;
     }
-  }, [id]);
+  }, [i18n.language, id, router, t]);
 
   const handleShare = async () => {
     if (!id) return;
