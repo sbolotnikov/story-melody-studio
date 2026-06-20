@@ -74,6 +74,7 @@ export default function OccasionDetail() {
       title: t(`occasions.${id}.title`) + " | StoryMelody Studio",
       text: t(`occasions.${id}.desc`),
       url: shareUrl,
+      image: window.location.origin + (typeof imageMap[id] === 'string' ? imageMap[id] : imageMap[id].src)
     };
     
     if (navigator.share) {

@@ -19,7 +19,8 @@ export default function Home() {
         <meta name="description" content={t('seo.home_desc')} />
         <meta property="og:title" content="Story Melody Studio" />
         <meta property="og:description" content={t('seo.home_desc')} />
-        <meta property="og:image" content={'/images/storymelody_hero.jpg'} />
+        <meta property="og:image" content={process.env.NEXTAUTH_URL+'/images/storymelody_hero.jpg'} />
+
       </Helmet>
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-32">
