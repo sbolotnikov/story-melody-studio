@@ -114,7 +114,7 @@ export default function GalleryClient() {
         <meta property="og:description" content={t('gallery.desc')} />
         <meta
           property="og:image"
-          content="/images/storymelody_logo - Small.png"
+          content={process.env.NEXTAUTH_URL+"/images/storymelody_logo - Small.png"}
         />
       </Helmet>
       <div className="text-center max-w-3xl mx-auto mb-12">

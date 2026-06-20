@@ -85,7 +85,7 @@ export default function About() {
         <meta property="og:description" content={about.headline} />
         <meta
           property="og:image"
-          content={heroImg}
+          content={process.env.NEXTAUTH_URL+heroImg}
         />
       </Helmet>
       <section className="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-32 bg-muted/30">

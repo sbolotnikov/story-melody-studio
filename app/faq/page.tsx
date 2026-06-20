@@ -157,7 +157,7 @@ export default function FAQ() {
         <meta name="description" content={t("nav.faq_desc")} />
         <meta property="og:title" content={`${t("faq.title")} - StoryMelody`} />
         <meta property="og:description" content={t("nav.faq_desc")} />
-        <meta property="og:image" content="/images/faq_hero_banner.jpg" />
+        <meta property="og:image" content={process.env.NEXTAUTH_URL+"/images/faq_hero_banner.jpg"} />
       </Helmet>
 
       {/* Hero Section */}
