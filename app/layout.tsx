@@ -7,10 +7,23 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import LanguageClient from './LanguageClient';
 import { headers } from 'next/headers';
+import type { Metadata } from 'next';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXTAUTH_URL ||
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      'https://story-melody-studio.vercel.app',
+  ),
+  title: {
+    default: 'StoryMelody Studio',
+    template: '%s | StoryMelody Studio',
+  },
+};
 
 export default async function RootLayout({ children }: LayoutProps) {
   const session = await getServerSession(authOptions);

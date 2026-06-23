@@ -22,6 +22,7 @@ export default function LanguageClient({ fallbackLocale = "en" }: { fallbackLoca
         console.error("i18n changeLanguage failed", error);
       });
     }
+    document.cookie = `storymelody-language=${locale}; path=/; max-age=31536000; samesite=lax`;
 
     document.documentElement.lang = locale;
     initialized.current = true;

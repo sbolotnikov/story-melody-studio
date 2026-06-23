@@ -11,11 +11,10 @@ import {
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ShareModal } from '../../components/ShareModal';
-const logoImg = '/images/storymelody_logo_1780521281759.png';
+const shareImage = '/images/storymelody_hero.jpg';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import { Helmet } from 'react-helmet-async';
 
 type FormValue = string | number | boolean | null | undefined | FileList;
 type FormState = Record<string, FormValue>;
@@ -425,9 +424,6 @@ export default function Questionnaire() {
 
   return (
     <div className="grow flex flex-col pt-16 pb-24 px-4 bg-muted/30">
-      <Helmet>
-        <title>Questionnaire - StoryMelody</title>
-      </Helmet>
       {/* Progress Bar */}
       <div className="w-full max-w-4xl mx-auto mb-16 relative">
         <div className="h-1 bg-border w-full absolute top-1/2 -translate-y-1/2 rounded-full overflow-hidden">
@@ -454,7 +450,7 @@ export default function Questionnaire() {
           <ShareModal
             title="Share the Questionnaire"
             description="Working on a gift together? Share this questionnaire with your family or friends to gather stories."
-            imageSrc={logoImg}
+            imageSrc={shareImage}
           />
         </div>
         <div className="grow pt-10 sm:pt-0">

@@ -5,7 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Play, Music, ImageIcon, Plus, Trash2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Helmet } from 'react-helmet-async';
+import { ShareModal } from '../../components/ShareModal';
+
+const galleryHeroImage = '/images/gallery.jpg';
 
 type GalleryItemType = 'image' | 'video' | 'song';
 
@@ -103,25 +105,28 @@ export default function GalleryClient() {
   };
 
   return (
-    <div className="grow flex flex-col py-16 lg:py-24 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-      <Helmet>
-        <title>{t('nav.gallery')} - StoryMelody</title>
-        <meta name="description" content={t('gallery.desc')} />
-        <meta
-          property="og:title"
-          content={`${t('nav.gallery')} - StoryMelody`}
-        />
-        <meta property="og:description" content={t('gallery.desc')} />
-        <meta
-          property="og:image"
-          content={process.env.NEXTAUTH_URL+"/images/storymelody_logo - Small.png"}
-        />
-      </Helmet>
-      <div className="text-center max-w-3xl mx-auto mb-12">
+    <div className="grow flex flex-col justify-center items-center py-16 lg:py-24 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+      <div className="text-center w-full max-w-4xl mb-12">
         <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">
           {t('nav.gallery')}
         </h1>
         <p className="text-lg text-muted-fg">{t('gallery.desc')}</p>
+        <div className="w-full aspect-video rounded-md overflow-hidden relative border border-brand-gold/20 shadow-2xl">
+          <Image
+            src={galleryHeroImage}
+            alt="Gallery Hero Banner"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover"
+            fill
+          />
+        </div>
+        <div className="mt-6">
+          <ShareModal
+            title={`${t('nav.gallery')} - StoryMelody`}
+            description={t('gallery.desc')}
+            imageSrc={galleryHeroImage}
+          />
+        </div>
       </div>
 
       <div className="flex justify-center mb-12">

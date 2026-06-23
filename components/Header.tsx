@@ -10,6 +10,10 @@ import { motion, AnimatePresence } from "motion/react";
 
 const logoImg = "/images/storymelody_logo_1780521281759.png";
 
+function rememberLanguage(language: string) {
+  document.cookie = `storymelody-language=${language}; path=/; max-age=31536000; samesite=lax`;
+}
+
 export function Header() {
   const router = useRouter();
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -39,6 +43,7 @@ export function Header() {
   const changeLanguage = (lng: string) => {
     const url = new URL(window.location.href);
     url.searchParams.set("lng", lng);
+    rememberLanguage(lng);
 
     i18n.changeLanguage(lng).catch((error) => {
       console.error("i18n changeLanguage failed", error);
