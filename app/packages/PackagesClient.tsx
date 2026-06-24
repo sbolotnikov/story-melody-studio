@@ -2,20 +2,33 @@
 import { useTranslation } from "react-i18next";
 import Link from 'next/link';
 import { ShareModal } from "../../components/ShareModal";
+import { EditorialHero } from "../../components/EditorialHero";
 const songImg = "/images/product_song_1780519111946.png";
 
 export default function Packages() {
   const { t } = useTranslation();
   return (
-    <div className="grow flex flex-col">
-      <section className="py-24 lg:py-32 bg-background">
-         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h1 className="text-sm font-medium uppercase tracking-widest text-brand-gold mb-4">{t('pricing.title_small')}</h1>
-              <h2 className="text-4xl lg:text-5xl font-bold font-serif mb-6">{t('pricing.title')}</h2>
-              <p className="text-muted-fg text-lg">{t('cta.desc')}</p>
-            </div>
+    <div className="grow flex w-full flex-col">
+      <EditorialHero
+        imageSrc={songImg}
+        imageAlt={t('products.song.title')}
+        eyebrow={t('pricing.title_small')}
+        title={t('pricing.title')}
+        description={t('cta.desc')}
+        imageClassName="object-cover object-[72%_center] lg:object-center"
+        actions={
+          <ShareModal
+            title={`${t('pricing.title')} | StoryMelody Studio`}
+            description={t('seo.packages_desc')}
+            imageSrc={songImg}
+            className="border-brand-gold/50 bg-background/45 backdrop-blur-sm"
+          />
+        }
+        detail={t('products.title_small')}
+      />
 
+      <section className="py-20 lg:py-28 bg-background">
+         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="border border-border bg-muted p-8 flex flex-col relative w-full h-full">
                 <div className="mb-2 text-muted-fg text-xs uppercase tracking-widest font-semibold">{t('pricing.pack1.type')}</div>
@@ -44,14 +57,6 @@ export default function Packages() {
             </div>
          </div>
       </section>
-      
-      <div className="py-12 bg-background flex justify-center">
-        <ShareModal 
-          title="Share Our Packages" 
-          description="Help someone discover the perfect personalized gift. Share our pricing and packages with friends and family." 
-          imageSrc={songImg} 
-        />
-      </div>
     </div>
   );
 }

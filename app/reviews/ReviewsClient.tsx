@@ -5,8 +5,9 @@ import { Star, CheckCircle, MessageSquare, Plus } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import { ShareModal } from "../../components/ShareModal";
+import { EditorialHero } from "../../components/EditorialHero";
 
-const reviewsShareImage = "/images/storymelody_hero.jpg";
+const reviewsShareImage = "/images/reviews_sm.jpg";
 
 interface Review {
   id: string;
@@ -157,26 +158,26 @@ export default function Reviews() {
   });
 
   return (
-    <div id="reviews-page" className="grow py-16 px-4 bg-background max-w-7xl mx-auto w-full flex flex-col">
-      {/* Banner */}
-      <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-gold mb-3 block">
-          {t('reviews.testimonials')}
-        </span>
-        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">
-          {t('reviews.loved_by_clients')}
-        </h1>
-        <p className="text-lg text-muted-fg leading-relaxed">
-          {t('reviews.intro_desc')}
-        </p>
-        <div className="mt-6">
+    <div id="reviews-page" className="grow bg-background w-full flex flex-col">
+      <EditorialHero
+        imageSrc={reviewsShareImage}
+        imageAlt={t('reviews.loved_by_clients')}
+        eyebrow={t('reviews.testimonials')}
+        title={t('reviews.loved_by_clients')}
+        description={t('reviews.intro_desc')}
+        imageClassName="object-cover object-[65%_center] lg:object-center"
+        actions={
           <ShareModal
             title={t('reviews.page_title')}
             description={t('reviews.intro_desc')}
             imageSrc={reviewsShareImage}
+            className="border-brand-gold/50 bg-background/45 backdrop-blur-sm"
           />
-        </div>
-      </div>
+        }
+        detail={t('reviews.confirmed_badge')}
+      />
+
+      <div className="mx-auto flex w-full max-w-7xl grow flex-col px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
 
       {/* Stats Summary & Writing controls */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
@@ -395,6 +396,7 @@ export default function Reviews() {
           {t('reviews.be_first')}
         </div>
       )}
+      </div>
     </div>
   );
 }

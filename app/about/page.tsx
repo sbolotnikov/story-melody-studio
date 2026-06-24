@@ -21,7 +21,7 @@ export async function generateMetadata({
       'seo.about_desc',
       'Meet the creators turning personal memories into timeless art.',
     ),
-    image: '/images/storymelody_hero.jpg',
+    image: '/images/about.jpg',
   });
 }
 

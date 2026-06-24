@@ -2,8 +2,8 @@
 import { useTranslation } from "react-i18next";
 import  Link  from "next/link";
 import { CheckCircle2, MessageSquare, CreditCard, Palette, PenTool, Gift, Users } from "lucide-react";
-import Image from "next/image";
 import { ShareModal } from "../../components/ShareModal";
+import { EditorialHero } from "../../components/EditorialHero";
 
 const faqHeroImage = "/images/faq_hero_banner.jpg";
 
@@ -154,31 +154,23 @@ export default function FAQ() {
 
   return (
     <div className="grow bg-background">
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 bg-muted/20">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h1 className="text-4xl md:text-5xl font-display font-medium text-foreground tracking-tight">
-            {t("faq.title")}
-          </h1>
-          <p className="text-xl text-muted-fg max-w-2xl mx-auto leading-relaxed">
-            {t("nav.faq_desc")}
-          </p>
-           <div className="w-full aspect-video rounded-md overflow-hidden relative border border-brand-gold/20 shadow-2xl">
-             <Image 
-               src={faqHeroImage}
-               alt="FAQ Hero Banner" 
-               referrerPolicy="no-referrer"
-               className="w-full h-full object-cover"
-               fill
-             />
-          </div>
+      <EditorialHero
+        imageSrc={faqHeroImage}
+        imageAlt={t("faq.title")}
+        eyebrow={t("faq.journey.title")}
+        title={t("faq.title")}
+        description={t("nav.faq_desc")}
+        imageClassName="object-cover object-[65%_center] lg:object-center"
+        actions={
           <ShareModal
             title={`${t("faq.title")} - StoryMelody`}
             description={t("nav.faq_desc")}
             imageSrc={faqHeroImage}
+            className="border-brand-gold/50 bg-background/45 backdrop-blur-sm"
           />
-        </div>
-      </section>
+        }
+        detail={t("faq.faq.title")}
+      />
 
       {/* Client Journey */}
       <section className="py-20 px-4 border-t border-border bg-background">

@@ -21,7 +21,7 @@ export async function generateMetadata({
       'occasions.main_desc',
       'Discover personalized music and art for every celebration.',
     ),
-    image: '/images/birthday_hero_1780580660623.png',
+    image: '/images/occasions_sm.jpg',
   });
 }
 

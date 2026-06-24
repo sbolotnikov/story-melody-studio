@@ -25,7 +25,7 @@ export async function generateMetadata({
       'reviews.intro_desc',
       'Read reviews from clients who turned their stories into original music and art.',
     ),
-    image: '/images/storymelody_hero.jpg',
+    image: '/images/reviews_sm.jpg',
   });
 }
 

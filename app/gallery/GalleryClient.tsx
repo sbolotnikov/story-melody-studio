@@ -1,9 +1,9 @@
 'use client';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
-import React, { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Play, Music, ImageIcon, Plus, Trash2 } from 'lucide-react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Play, Music, ImageIcon, Plus, Trash2, X, Maximize2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { ShareModal } from '../../components/ShareModal';
 
@@ -24,18 +24,27 @@ const TABS = [
   { id: 'image', label: 'Images', icon: ImageIcon },
   { id: 'video', label: 'Videos', icon: Play },
   { id: 'song', label: 'Songs', icon: Music },
-];
+] as const;
+
+function isGalleryItemType(value: string | null): value is GalleryItemType {
+  return value === 'image' || value === 'video' || value === 'song';
+}
 
 export default function GalleryClient() {
   const { t } = useTranslation();
   const authContext = useAuth();
   const profile = authContext?.profile;
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const currentType = (searchParams.get('type') as GalleryItemType) || 'image';
+  const initialType = searchParams.get('type');
+  const [currentType, setCurrentType] = useState<GalleryItemType>(
+    isGalleryItemType(initialType) ? initialType : 'image',
+  );
 
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeMedia, setActiveMedia] = useState<GalleryItem | null>(null);
+  const itemCache = useRef<Partial<Record<GalleryItemType, GalleryItem[]>>>({});
+  const activeType = useRef(currentType);
 
   // Admin state
   const [isAdding, setIsAdding] = useState(false);
@@ -45,25 +54,68 @@ export default function GalleryClient() {
     url: '',
   });
 
-  const fetchItems = async () => {
-    setLoading(true);
+  const fetchItems = useCallback(async (type: GalleryItemType, force = false) => {
+    const cachedItems = itemCache.current[type];
+    if (cachedItems && !force) {
+      if (activeType.current === type) {
+        setItems(cachedItems);
+        setLoading(false);
+      }
+      return;
+    }
+
+    if (activeType.current === type) setLoading(true);
+
     try {
-      const res = await fetch(`/api/gallery?type=${currentType}`);
+      const res = await fetch(`/api/gallery?type=${type}`);
       if (res.ok) {
-        const data = await res.json();
-        setItems(data);
+        const data = (await res.json()) as GalleryItem[];
+        itemCache.current[type] = data;
+        if (activeType.current === type) setItems(data);
       }
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false);
+      if (activeType.current === type) setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    // schedule fetch on next microtask to avoid calling setState synchronously within the effect
-    Promise.resolve().then(() => fetchItems());
-  }, [currentType]);
+    void fetchItems(currentType);
+
+    TABS.forEach(({ id }) => {
+      if (id !== currentType) void fetchItems(id);
+    });
+  }, [currentType, fetchItems]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const type = new URL(window.location.href).searchParams.get('type');
+      const nextType = isGalleryItemType(type) ? type : 'image';
+      activeType.current = nextType;
+      setCurrentType(nextType);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    if (!activeMedia) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActiveMedia(null);
+    };
+
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeMedia]);
 
   const handleAddItem = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,7 +129,7 @@ export default function GalleryClient() {
       if (res.ok) {
         setNewItem({ title: '', description: '', url: '' });
         setIsAdding(false);
-        fetchItems();
+        await fetchItems(currentType, true);
       }
     } catch (err) {
       console.error(err);
@@ -89,53 +141,103 @@ export default function GalleryClient() {
     try {
       const res = await fetch(`/api/gallery/${id}`, { method: 'DELETE' });
       if (res.ok) {
-        setItems((prev) => prev.filter((item) => item.id !== id));
+        setItems((prev) => {
+          const nextItems = prev.filter((item) => item.id !== id);
+          itemCache.current[currentType] = nextItems;
+          return nextItems;
+        });
       }
     } catch (err) {
       console.error(err);
     }
   };
 
-  const setSearchParams = (params: Record<string, string>) => {
-    const newParams = new URLSearchParams(searchParams.toString());
-    Object.entries(params).forEach(([key, value]) => {
-      newParams.set(key, value);
-    });
-    router.push(`?${newParams.toString()}`);
+  const selectType = (type: GalleryItemType) => {
+    if (type === currentType) return;
+
+    activeType.current = type;
+    setCurrentType(type);
+
+    const cachedItems = itemCache.current[type];
+    if (cachedItems) {
+      setItems(cachedItems);
+      setLoading(false);
+    }
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('type', type);
+    window.history.pushState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
   };
 
   return (
-    <div className="grow flex flex-col justify-center items-center py-16 lg:py-24 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-      <div className="text-center w-full max-w-4xl mb-12">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">
-          {t('nav.gallery')}
-        </h1>
-        <p className="text-lg text-muted-fg">{t('gallery.desc')}</p>
-        <div className="w-full aspect-video rounded-md overflow-hidden relative border border-brand-gold/20 shadow-2xl">
-          <Image
-            src={galleryHeroImage}
-            alt="Gallery Hero Banner"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover"
-            fill
-          />
-        </div>
-        <div className="mt-6">
-          <ShareModal
-            title={`${t('nav.gallery')} - StoryMelody`}
-            description={t('gallery.desc')}
-            imageSrc={galleryHeroImage}
-          />
-        </div>
-      </div>
+    <div className="grow flex flex-col w-full justify-center items-center">
+      <section className="relative isolate flex min-h-145 w-full items-end overflow-hidden lg:min-h-[64svh] lg:items-stretch xl:min-h-[68svh]">
+        <Image
+          src={galleryHeroImage}
+          alt="A collection of personalized StoryMelody celebrations and portraits"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[58%_center] lg:object-center"
+        />
 
-      <div className="flex justify-center mb-12">
-        <div className="flex border border-border p-1 bg-muted/50 w-full max-w-md">
+        <div className="absolute inset-0 bg-linear-to-t from-background/90 via-transparent to-black/5 lg:bg-linear-to-r lg:from-background/35 lg:via-transparent lg:to-black/10" />
+
+        <div
+          className="absolute inset-y-0 left-0 hidden w-[54%] border-r border-brand-gold/30 bg-background/72 backdrop-blur-md lg:block"
+          style={{
+            clipPath: 'polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-y-0 left-0 hidden w-[54%] bg-linear-to-r from-brand-gold/8 via-transparent to-brand-gold/12 lg:block"
+          style={{
+            clipPath: 'polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%)',
+          }}
+        />
+
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl items-end px-4 pb-16 pt-28 sm:px-6 lg:items-center lg:px-8 lg:py-20">
+          <div className="relative w-full bg-background/78 px-6 py-8 text-left backdrop-blur-xl sm:px-9 sm:py-10 lg:max-w-[48%] lg:bg-transparent lg:p-0 lg:pr-10 lg:backdrop-blur-none">
+            <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-brand-gold via-brand-gold/50 to-transparent lg:hidden" />
+            <div className="mb-7 flex items-center gap-4">
+              <span className="h-px w-14 bg-brand-gold" />
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold">
+                StoryMelody Studio
+              </p>
+            </div>
+
+            <h1 className="text-5xl font-serif font-bold leading-[0.92] sm:text-6xl lg:text-7xl xl:text-8xl">
+              {t('nav.gallery')}
+            </h1>
+
+            <p className="mt-7 max-w-md text-base leading-relaxed text-foreground/75 sm:text-lg">
+              {t('gallery.desc')}
+            </p>
+
+            <div className="mt-9 flex items-center gap-5">
+              <ShareModal
+                title={`${t('nav.gallery')} - StoryMelody`}
+                description={t('gallery.desc')}
+                imageSrc={galleryHeroImage}
+                className="border-brand-gold/50 bg-background/45 backdrop-blur-sm"
+              />
+              <span className="hidden text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-fg sm:block">
+                {t('gallery.hero.tagline')}
+              </span>
+            </div>
+
+            <div className="absolute -bottom-16 left-6 hidden h-16 w-px bg-linear-to-b from-brand-gold/70 to-transparent lg:block" />
+          </div>
+        </div>
+      </section>
+
+      <div className="relative z-20 -mt-7 flex w-full justify-center px-4 sm:px-6">
+        <div className="flex w-full max-w-md border border-border bg-background/90 p-1 shadow-xl backdrop-blur-xl">
           {TABS.map((tab) => (
             <button
               key={tab.id}
               onClick={() => {
-                setSearchParams({ type: tab.id });
+                selectType(tab.id);
                 setIsAdding(false);
               }}
               className={`flex-1 flex items-center justify-center gap-2 py-3 text-xs font-semibold uppercase tracking-widest transition-colors ${
@@ -152,7 +254,7 @@ export default function GalleryClient() {
       </div>
 
       {profile?.role === 'admin' && (
-        <div className="mb-12">
+        <div className="m-12">
           {!isAdding ? (
             <button
               onClick={() => setIsAdding(true)}
@@ -237,13 +339,20 @@ export default function GalleryClient() {
           {t('gallery.empty')}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid w-full max-w-7xl grid-cols-1 gap-8 px-4 pt-16 pb-24 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8 lg:pt-24 lg:pb-32">
           {items.map((item) => (
             <div
               key={item.id}
               className="group relative border border-border bg-background overflow-hidden flex flex-col"
             >
-              <div className="aspect-video bg-muted relative overflow-hidden flex items-center justify-center">
+              <div
+                className={`aspect-video bg-muted relative overflow-hidden flex items-center justify-center ${
+                  item.type !== 'song' ? 'cursor-zoom-in' : ''
+                }`}
+                onClick={() => {
+                  if (item.type !== 'song') setActiveMedia(item);
+                }}
+              >
                 {item.type === 'image' && (
                   <Image
                     src={item.url}
@@ -255,17 +364,25 @@ export default function GalleryClient() {
                   />
                 )}
                 {item.type === 'video' && (
-                  <iframe
-                    src={item.url}
-                    title={item.title}
-                    className="w-full h-full"
-                    allowFullScreen
-                  ></iframe>
+                  <>
+                    <iframe
+                      src={item.url}
+                      title={item.title}
+                      className="w-full h-full pointer-events-none"
+                      allowFullScreen
+                    ></iframe>
+                    <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/15" />
+                  </>
                 )}
                 {item.type === 'song' && (
                   <audio controls src={item.url} className="w-full px-4">
                     <track kind="captions" />
                   </audio>
+                )}
+                {item.type !== 'song' && (
+                  <span className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-black/45 text-white opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100">
+                    <Maximize2 className="h-4 w-4" />
+                  </span>
                 )}
               </div>
               <div className="p-6 grow flex flex-col">
@@ -302,6 +419,66 @@ export default function GalleryClient() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {activeMedia && (
+        <div
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md sm:p-8"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setActiveMedia(null);
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={activeMedia.title}
+            className="relative flex h-full max-h-[92vh] w-full max-w-7xl flex-col"
+          >
+            <div className="mb-3 flex items-center justify-between gap-4 text-white">
+              <div className="min-w-0">
+                <h2 className="truncate font-serif text-xl font-bold sm:text-2xl">
+                  {activeMedia.title}
+                </h2>
+                {activeMedia.description && (
+                  <p className="mt-1 hidden truncate text-sm text-white/65 sm:block">
+                    {activeMedia.description}
+                  </p>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveMedia(null)}
+                aria-label="Close fullscreen media"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white transition-colors hover:bg-white/20"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="relative min-h-0 grow overflow-hidden border border-white/15 bg-black shadow-2xl">
+              {activeMedia.type === 'image' ? (
+                <Image
+                  src={activeMedia.url}
+                  alt={activeMedia.title}
+                  fill
+                  sizes="100vw"
+                  className="object-contain"
+                  priority
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <iframe
+                  src={activeMedia.url}
+                  title={activeMedia.title}
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
