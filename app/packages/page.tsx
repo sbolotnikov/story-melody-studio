@@ -21,7 +21,7 @@ export async function generateMetadata({
       'seo.packages_desc',
       'Explore our personalized packages and pricing. Crafted for every moment.',
     ),
-    image: '/images/product_song_1780519111946.png',
+    image: '/images/packages_sm.jpg',
   });
 }
 
