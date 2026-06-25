@@ -86,25 +86,40 @@ export default function About() {
         <div className="absolute inset-0 bg-linear-to-t from-background via-background/5 to-black/10 lg:bg-linear-to-r lg:from-background/40 lg:via-transparent lg:to-black/10" />
 
         <div
-          className="absolute inset-y-0 left-0 hidden w-[58%] border-r border-brand-gold/30 bg-background/76 backdrop-blur-md lg:block"
+          className="absolute inset-y-0 left-0 hidden w-[54%] lg:block"
           style={{
-            clipPath: 'polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%)',
-          }}
-        />
-        <div
-          className="absolute inset-y-0 left-0 hidden w-[58%] bg-linear-to-r from-brand-gold/8 via-transparent to-brand-gold/12 lg:block"
-          style={{
-            clipPath: 'polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%)',
+            background:
+              'linear-gradient(90deg, var(--bg-color) 0%, color-mix(in srgb, var(--bg-color) 96%, transparent) 58%, color-mix(in srgb, var(--bg-color) 72%, transparent) 74%, color-mix(in srgb, var(--bg-color) 30%, transparent) 88%, transparent 100%)',
           }}
         />
 
         <div className="relative z-10 mx-auto flex w-full max-w-7xl items-end px-4 pb-10 pt-32 sm:px-6 sm:pb-14 lg:items-center lg:px-8 lg:py-12">
-          <div className="relative w-full bg-background/82 px-6 py-8 text-left backdrop-blur-xl sm:px-9 sm:py-10 lg:max-w-[52%] lg:bg-transparent lg:p-0 lg:pr-12 lg:backdrop-blur-none">
-            <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-brand-gold via-brand-gold/50 to-transparent lg:hidden" />
+          <div className="relative w-full overflow-hidden rounded-[2rem] border border-white/15 bg-background/48 px-6 py-8 text-left shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] sm:px-9 sm:py-10 lg:max-w-[52%] lg:overflow-visible lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-12 lg:shadow-none lg:backdrop-blur-none">
+            <div
+              className="pointer-events-none absolute inset-0 lg:hidden"
+              style={{
+                background:
+                  'radial-gradient(ellipse at center, transparent 38%, color-mix(in srgb, var(--bg-color) 18%, transparent) 68%, color-mix(in srgb, var(--bg-color) 42%, transparent) 100%)',
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-16 blur-lg lg:hidden"
+              style={{
+                background:
+                  'conic-gradient(from 270deg at 50% 0%, transparent 0deg, color-mix(in srgb, var(--bg-color) 46%, transparent) 42deg, color-mix(in srgb, var(--bg-color) 96%, transparent) 90deg, color-mix(in srgb, var(--bg-color) 46%, transparent) 138deg, transparent 180deg)',
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-x-[10%] top-0 h-8 opacity-55 blur-md lg:hidden"
+              style={{
+                background:
+                  'conic-gradient(from 270deg at 50% 0%, transparent 0deg, color-mix(in srgb, #c5a059 20%, transparent) 70deg, color-mix(in srgb, #c5a059 30%, transparent) 90deg, color-mix(in srgb, #c5a059 20%, transparent) 110deg, transparent 180deg)',
+              }}
+            />
 
             <div className="mb-6 flex items-center gap-4">
-              <span className="h-px w-14 bg-brand-gold" />
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold">
+              <span className="h-px w-14 bg-[#8a641f] shadow-[0_1px_2px_rgba(255,255,255,0.45)] dark:bg-[#e2bd73] dark:shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#765313] drop-shadow-[0_1px_1px_rgba(255,255,255,0.75)] dark:text-[#f0cb80] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
                 {t('about.hero.eyebrow')}
               </p>
             </div>
@@ -113,7 +128,7 @@ export default function About() {
               {about.title}
             </h1>
 
-            <h2 className="mt-6 max-w-xl font-serif text-2xl italic leading-tight text-brand-gold sm:text-3xl">
+            <h2 className="mt-6 max-w-xl font-serif text-2xl font-medium italic leading-tight text-[#765313] drop-shadow-[0_1px_1px_rgba(255,255,255,0.75)] sm:text-3xl dark:text-[#f0cb80] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
               &ldquo;{about.headline}&rdquo;
             </h2>
 
