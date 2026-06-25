@@ -2,6 +2,7 @@
 
 import Image, { type StaticImageData } from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Check,
   Copy,
@@ -60,12 +61,17 @@ export function ShareModal({
   useEffect(() => {
     if (!isOpen) return;
 
+    const previousOverflow = document.body.style.overflow;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setIsOpen(false);
     };
 
+    document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen]);
 
   const handleCopy = async () => {
@@ -129,15 +135,15 @@ export function ShareModal({
           setShareMessage('');
           setIsOpen(true);
         }}
-        className={`inline-flex items-center justify-center border border-border bg-background text-foreground px-6 py-3 text-xs font-semibold uppercase tracking-widest hover:border-brand-gold hover:text-brand-gold transition-colors ${className}`}
+        className={`studio-action studio-share-action ${className}`}
       >
-        <Share2 className="w-4 h-4 mr-2" />
-        {buttonLabel}
+        <Share2 className="h-4 w-4" />
+        <span>{buttonLabel}</span>
       </button>
 
-      {isOpen && (
+      {isOpen && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
           role="presentation"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) setIsOpen(false);
@@ -181,10 +187,10 @@ export function ShareModal({
                 type="button"
                 onClick={handleNativeShare}
                 disabled={isSharing}
-                className="w-full mb-6 bg-brand-gold text-brand-dark px-5 py-4 font-bold uppercase tracking-widest text-xs hover:bg-brand-gold/90 transition-colors inline-flex items-center justify-center gap-2 disabled:opacity-60"
+                className="studio-action studio-primary-action mb-6 w-full px-5 py-4 disabled:pointer-events-none disabled:opacity-60"
               >
                 <Share2 className="w-4 h-4" />
-                {isSharing ? 'Preparing image…' : 'Share page and image'}
+                <span>{isSharing ? 'Preparing image…' : 'Share page and image'}</span>
               </button>
 
               <div className="grid grid-cols-4 gap-3 mb-6 border-y border-border py-4">
@@ -256,10 +262,10 @@ export function ShareModal({
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="bg-foreground text-background px-4 py-3 font-semibold uppercase tracking-widest text-xs hover:opacity-90 transition-opacity flex items-center gap-2 whitespace-nowrap"
+                  className="studio-action studio-admin-action shrink-0 whitespace-nowrap px-4 py-3"
                 >
                   {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  {copied ? 'Copied' : 'Copy'}
+                  <span>{copied ? 'Copied' : 'Copy'}</span>
                 </button>
               </div>
 
@@ -270,7 +276,8 @@ export function ShareModal({
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

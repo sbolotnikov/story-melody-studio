@@ -1,5 +1,5 @@
 'use client';
-import { Moon, Sun, ChevronDown, User, Menu, X } from "lucide-react";
+import { Moon, Sun, ChevronDown, User, Menu, X, LogOut } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -174,9 +174,10 @@ export function Header() {
                   </Link>
                   <button
                     onClick={() => { logout(); setIsUserMenuOpen(false); }}
-                    className="block w-full text-left px-4 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-muted transition-colors text-red-500"
+                    className="studio-danger-action mx-3 my-2 w-[calc(100%_-_1.5rem)]"
                   >
-                    Logout
+                    <LogOut className="h-3.5 w-3.5" />
+                    <span>Logout</span>
                   </button>
                 </div>
               )}
@@ -191,7 +192,7 @@ export function Header() {
             </button>
             <Link
               href="/questionnaire"
-              className="hidden sm:inline-flex items-center justify-center border border-brand-gold bg-transparent text-brand-gold px-3 py-2 lg:px-6 lg:py-3 text-[10px] lg:text-xs font-semibold uppercase tracking-widest hover:bg-brand-gold hover:text-background transition-colors whitespace-nowrap"
+              className="studio-action studio-primary-action hidden whitespace-nowrap px-3 py-2 text-[10px] sm:inline-flex lg:px-6 lg:py-3 lg:text-xs"
             >
               {t('action.start')}
             </Link>
@@ -252,7 +253,7 @@ export function Header() {
                 <Link
                   href="/questionnaire"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="inline-flex items-center justify-center border border-brand-gold bg-transparent text-brand-gold px-6 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-brand-gold hover:text-background transition-colors w-full mt-4"
+                  className="studio-action studio-primary-action mt-4 w-full"
                 >
                   {t('action.start')}
                 </Link>

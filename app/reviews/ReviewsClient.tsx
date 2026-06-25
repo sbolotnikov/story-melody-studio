@@ -220,10 +220,10 @@ export default function Reviews() {
           </p>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="bg-brand-gold text-brand-dark px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-brand-gold/90 transition-colors flex items-center gap-2"
+            className="studio-action studio-primary-action px-6 py-3"
           >
-            <Plus className="w-4 h-4" />
-            {t('reviews.write_btn')}
+            <Plus className="h-4 w-4" />
+            <span>{t('reviews.write_btn')}</span>
           </button>
         </div>
       </div>

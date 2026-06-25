@@ -28,9 +28,9 @@ export function Footer() {
         <div>
           <h4 className="font-medium text-xs uppercase tracking-widest text-gray-500 mb-6">Explore</h4>
           <ul className="space-y-4 text-sm text-gray-400">
-            <li><Link href="/packages" className="hover:text-brand-gold transition-colors">{t('products.song.title')}</Link></li>
-            <li><Link href="/packages" className="hover:text-brand-gold transition-colors">{t('products.video.title')}</Link></li>
-            <li><Link href="/packages" className="hover:text-brand-gold transition-colors">{t('products.portrait.title')}</Link></li>
+            <li><Link href="/gallery?type=song" className="hover:text-brand-gold transition-colors">{t('products.song.title')}</Link></li>
+            <li><Link href="/gallery?type=video" className="hover:text-brand-gold transition-colors">{t('products.video.title')}</Link></li>
+            <li><Link href="/gallery?type=image" className="hover:text-brand-gold transition-colors">{t('products.portrait.title')}</Link></li>
             <li><Link href="/packages" className="hover:text-brand-gold transition-colors">{t('nav.packages')}</Link></li>
           </ul>
         </div>

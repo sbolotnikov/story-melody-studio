@@ -5,7 +5,7 @@ import Link from 'next/link';
 import bcrypt from 'bcryptjs';
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
-import {  Receipt, Mail, Plus, Trash2, X, CreditCard, CheckCircle, FileText} from "lucide-react";
+import { Receipt, Mail, Plus, Trash2, X, CreditCard, CheckCircle, FileText, Save, RotateCcw, Eye, Pencil } from "lucide-react";
 import { generateInvoicePDF } from "../../utils/generateInvoicePdf";
 import { ProductFormModal } from "../../components/ProductFormModal";
 import { PaymentModal } from "../../components/PaymentModal";
@@ -679,17 +679,19 @@ export default function Dashboard() {
               <button
                 type="submit"
                 disabled={isSavingProfile}
-                className="bg-brand-gold text-brand-dark px-6 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-brand-gold/90 transition-colors disabled:opacity-50"
+                className="studio-action studio-primary-action px-6 py-3 disabled:pointer-events-none disabled:opacity-50"
               >
-                {isSavingProfile ? t('q.saving') : t('dash.save')}
+                <Save className="h-4 w-4" />
+                <span>{isSavingProfile ? t('q.saving') : t('dash.save')}</span>
               </button>
               
               <button
                 type="button"
                 onClick={handleResetPassword}
-                className="border border-border text-foreground px-6 py-3 text-xs font-semibold uppercase tracking-widest hover:border-brand-gold hover:text-brand-gold transition-colors"
+                className="studio-action studio-share-action px-6 py-3"
               >
-                {t('dash.reset_pass')}
+                <RotateCcw className="h-4 w-4" />
+                <span>{t('dash.reset_pass')}</span>
               </button>
             </div>
           </form>
@@ -799,7 +801,7 @@ export default function Dashboard() {
                                 const doc = generateInvoicePDF(order, orderInvoice);
                                 doc.save(`StoryMelody_Invoice_SM-INV-${orderInvoice.id || order.id}.pdf`);
                               }}
-                              className="border border-border/80 text-foreground hover:bg-muted hover:text-brand-gold px-3 py-2 text-[10px] font-bold uppercase tracking-widest transition-all shadow-sm flex items-center gap-1.5"
+                              className="studio-action studio-share-action text-foreground hover:bg-muted hover:text-brand-gold px-3 py-2 text-[10px] font-bold uppercase tracking-widest transition-all shadow-sm flex items-center gap-1.5"
                             >
                               <FileText className="w-3.5 h-3.5" />
                               Download PDF Invoice
@@ -817,10 +819,10 @@ export default function Dashboard() {
                                 {profile?.role !== 'admin' && (
                                   <button
                                     onClick={() => handleOpenPaymentDialog(order, orderInvoice)}
-                                    className="bg-brand-gold text-brand-dark px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brand-gold/90 transition-all shadow-md flex items-center gap-1"
+                                    className="studio-action studio-share-action whitespace-nowrap px-4 py-2.5 text-[10px]"
                                   >
-                                    <CreditCard className="w-3 h-3" />
-                                    Pay Statement (${invoiceGrandTotal})
+                                    <CreditCard className="h-3.5 w-3.5" />
+                                    <span>Pay Statement (${invoiceGrandTotal})</span>
                                   </button>
                                 )}
                               </div>
@@ -856,33 +858,36 @@ export default function Dashboard() {
                       {profile?.role === 'admin' && (
                          <button
                            onClick={() => handleOpenInvoiceManager(order)}
-                           className="text-xs font-bold uppercase tracking-widest bg-brand-gold text-brand-dark hover:bg-brand-gold/90 transition-colors py-2.5 px-4 text-center flex items-center justify-center gap-1 border border-brand-gold"
+                           className="studio-action studio-primary-action w-full px-3 py-2.5 text-[10px]"
                          >
                            <Receipt className="w-3.5 h-3.5" />
-                           {orderInvoice ? "Edit Invoice" : "Create Invoice"}
+                           <span>{orderInvoice ? "Edit Invoice" : "Create Invoice"}</span>
                          </button>
                       )}
                       
                       {profile?.role === 'admin' ? (
                          <button
                            onClick={() => setExpandedOrders(prev => ({...prev, [order.id]: !prev[order.id]}))}
-                           className="text-xs font-semibold uppercase tracking-widest text-brand-gold hover:text-brand-gold/80 transition-colors py-2 text-center border border-brand-gold/20 hover:border-brand-gold"
+                           className="studio-action studio-share-action w-full px-3 py-2.5 text-[10px]"
                          >
-                           {expandedOrders[order.id] ? t('dash.hide_details') : t('dash.view_details')}
+                           <Eye className="h-3.5 w-3.5" />
+                           <span>{expandedOrders[order.id] ? t('dash.hide_details') : t('dash.view_details')}</span>
                          </button>
                       ) : (
                         <>
                          <button
                            onClick={() => setExpandedOrders(prev => ({...prev, [order.id]: !prev[order.id]}))}
-                           className="text-xs font-semibold uppercase tracking-widest text-brand-gold hover:text-brand-gold/80 transition-colors py-2 text-center border border-brand-gold/20 hover:border-brand-gold mt-1"
+                           className="studio-action studio-share-action mt-1 w-full px-3 py-2.5 text-[10px]"
                          >
-                           {expandedOrders[order.id] ? t('dash.hide_details') : t('dash.view_details')}
+                           <Eye className="h-3.5 w-3.5" />
+                           <span>{expandedOrders[order.id] ? t('dash.hide_details') : t('dash.view_details')}</span>
                          </button>
                           <Link
                             href={`/questionnaire?orderId=${order.id}`}
-                            className="text-xs font-semibold uppercase tracking-widest text-brand-gold hover:text-brand-gold/80 transition-colors py-2 text-center border border-brand-gold/20 hover:border-brand-gold mt-1"
+                            className="studio-action studio-share-action mt-1 w-full px-3 py-2.5 text-[10px]"
                           >
-                            {t('dash.edit_q')}
+                            <Pencil className="h-3.5 w-3.5" />
+                            <span>{t('dash.edit_q')}</span>
                           </Link>
                         </>
                       )}
@@ -898,9 +903,10 @@ export default function Dashboard() {
 
                       <button
                         onClick={() => handleDeleteOrder(order.id)}
-                        className="text-xs font-semibold uppercase tracking-widest text-red-500 hover:text-red-400 transition-colors py-2 text-center"
+                        className="studio-danger-action w-full"
                       >
-                        {t('dash.delete')}
+                        <Trash2 className="h-3.5 w-3.5" />
+                        <span>{t('dash.delete')}</span>
                       </button>
                     </div>
                     </div>

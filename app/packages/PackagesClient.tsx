@@ -50,7 +50,7 @@ export default function Packages() {
                   <div className="text-3xl font-serif font-bold mb-4">{t('pricing.pack1.title')}</div>
                   <div className="text-4xl font-serif text-brand-gold mb-6">$79</div>
                   <p className="text-muted-fg mb-8 text-sm grow">{t('pricing.pack1.desc')}</p>
-                  <Link href="/questionnaire?package=1" className="w-full block text-center rounded-none border border-brand-gold text-brand-gold px-4 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-brand-gold hover:text-brand-dark transition-colors">{t('action.start')}</Link>
+                  <Link href="/questionnaire?package=1" className="studio-action studio-primary-action w-full">{t('action.start')}</Link>
                 </div>
               </div>
 
@@ -71,7 +71,7 @@ export default function Packages() {
                   <div className="text-3xl font-serif font-bold mb-4">{t('pricing.pack2.title')}</div>
                   <div className="text-4xl font-serif text-brand-gold mb-6">$499</div>
                   <p className="text-muted-fg mb-8 text-sm grow">{t('pricing.pack2.desc')}</p>
-                  <Link href="/questionnaire?package=2" className="w-full block text-center rounded-none bg-brand-gold border border-brand-gold text-brand-dark px-4 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-transparent hover:text-brand-gold transition-colors">{t('action.start')}</Link>
+                  <Link href="/questionnaire?package=2" className="studio-action studio-primary-action w-full">{t('action.start')}</Link>
                 </div>
               </div>
 
@@ -91,7 +91,7 @@ export default function Packages() {
                   <div className="text-3xl font-serif font-bold mb-4">{t('pricing.pack3.title')}</div>
                   <div className="text-4xl font-serif text-brand-gold mb-6">$1499<span className="text-lg opacity-70">+</span></div>
                   <p className="text-muted-fg mb-8 text-sm grow">{t('pricing.pack3.desc')}</p>
-                  <Link href="/questionnaire?package=3" className="w-full block text-center rounded-none border border-brand-gold text-brand-gold px-4 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-brand-gold hover:text-brand-dark transition-colors">{t('action.start')}</Link>
+                  <Link href="/questionnaire?package=3" className="studio-action studio-primary-action w-full">{t('action.start')}</Link>
                 </div>
               </div>
             </div>

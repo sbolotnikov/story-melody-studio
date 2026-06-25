@@ -89,6 +89,22 @@ export default function GalleryClient() {
   }, [currentType, fetchItems]);
 
   useEffect(() => {
+    const requestedType = searchParams.get('type');
+    const nextType = isGalleryItemType(requestedType) ? requestedType : 'image';
+
+    if (nextType === activeType.current) return;
+
+    activeType.current = nextType;
+    setCurrentType(nextType);
+
+    const cachedItems = itemCache.current[nextType];
+    if (cachedItems) {
+      setItems(cachedItems);
+      setLoading(false);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     const handlePopState = () => {
       const type = new URL(window.location.href).searchParams.get('type');
       const nextType = isGalleryItemType(type) ? type : 'image';
@@ -242,7 +258,7 @@ export default function GalleryClient() {
               </span>
             </div>
 
-            <div className="absolute -bottom-16 left-6 hidden h-16 w-px bg-linear-to-b from-brand-gold/70 to-transparent lg:block" />
+            {/* <div className="absolute -bottom-16 left-6 hidden h-16 w-px bg-linear-to-b from-brand-gold/70 to-transparent lg:block" /> */}
           </div>
         </div>
       </section>
@@ -274,9 +290,10 @@ export default function GalleryClient() {
           {!isAdding ? (
             <button
               onClick={() => setIsAdding(true)}
-              className="px-6 py-3 bg-brand-gold text-brand-dark text-xs font-bold uppercase tracking-widest inline-flex items-center"
+              className="studio-action studio-admin-action"
             >
-              <Plus className="w-4 h-4 mr-2" /> Add New {currentType}
+              <Plus className="h-4 w-4" />
+              <span>Add New {currentType}</span>
             </button>
           ) : (
             <form

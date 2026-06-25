@@ -57,7 +57,7 @@ export default function OccasionDetail() {
           <>
             <Link
               href={`/questionnaire?projectType=${id}`}
-              className="inline-flex items-center justify-center border border-brand-gold bg-brand-gold text-brand-dark px-8 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-brand-gold/90 transition-colors shadow-sm"
+              className="studio-action studio-primary-action px-8 py-4 text-sm"
             >
               {t('action.start')}
             </Link>

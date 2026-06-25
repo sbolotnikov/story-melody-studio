@@ -33,7 +33,7 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-              <Link href="/questionnaire" className="w-full sm:w-auto inline-flex items-center justify-center rounded-none bg-brand-gold px-8 py-4 text-xs font-bold text-brand-dark transition-all hover:bg-brand-gold/90 uppercase tracking-widest">
+              <Link href="/questionnaire" className="studio-action studio-primary-action w-full sm:w-auto">
                 {t('action.start')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -210,8 +210,9 @@ export default function Home() {
         <div className="relative z-10 w-full max-w-4xl mx-auto px-4 text-center">
            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 text-brand-dark">{t('cta.title')}</h2>
            <p className="text-lg md:text-xl mb-10 opacity-90 max-w-2xl mx-auto text-brand-dark font-medium">{t('cta.desc')}</p>
-           <Link href="/questionnaire" className="inline-flex items-center justify-center rounded-none bg-brand-dark text-brand-gold px-10 py-5 text-sm font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-brand-dark/90 hover:scale-[1.02] transition-all">
+           <Link href="/questionnaire" className="studio-action studio-admin-action px-10 py-5 text-sm tracking-[0.2em]">
              {t('action.start')}
+             <ArrowRight className="h-4 w-4" />
            </Link>
         </div>
       </section>

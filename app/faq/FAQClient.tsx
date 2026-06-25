@@ -196,7 +196,7 @@ export default function FAQ() {
           </div>
 
           <div className="mt-16 text-center">
-            <Link href="/questionnaire" className="inline-flex items-center justify-center bg-brand-gold text-brand-black hover:bg-brand-gold/90 text-lg px-8 py-6 rounded-none font-medium transition-colors">
+            <Link href="/questionnaire" className="studio-action studio-primary-action px-8 py-6 text-sm">
                  {t("action.start")}
             </Link>
           </div>
