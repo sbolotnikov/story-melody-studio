@@ -1,5 +1,5 @@
 'use client';
-import { Moon, Sun, ChevronDown, User, Menu, X, LogOut } from "lucide-react";
+import { Moon, Sun, ChevronDown, User, Menu, X, LogOut, Phone } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
+import { CustomButton } from "./CustomButton";
 
 const logoImg = "/images/storymelody_logo_1780521281759.png";
 
@@ -62,6 +63,10 @@ export function Header() {
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  const callStudio = () => {
+    window.location.href = "tel:+19179162840";
   };
 
   const languages = [
@@ -174,7 +179,7 @@ export function Header() {
                   </Link>
                   <button
                     onClick={() => { logout(); setIsUserMenuOpen(false); }}
-                    className="studio-danger-action mx-3 my-2 w-[calc(100%_-_1.5rem)]"
+                    className="studio-danger-action mx-3 my-2 w-calc(100%_-_1.5rem)"
                   >
                     <LogOut className="h-3.5 w-3.5" />
                     <span>Logout</span>
@@ -190,6 +195,20 @@ export function Header() {
             >
               {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
             </button>
+            <div className="hidden xl:block">
+              <CustomButton
+                text={t('action.call_us')}
+                icon={Phone}
+                iconAnimation="ping"
+                hoverEffects={['ripple', 'tilt']}
+                clickEffects={['soundwave', 'firework']}
+                bgColor="#C5A059"
+                textColor="#0D0F12"
+                borderRadius="9999px"
+                className="whitespace-nowrap text-[12px] font-bold uppercase tracking-normal"
+                onClick={callStudio}
+              />
+            </div>
             <Link
               href="/questionnaire"
               className="studio-action studio-primary-action hidden whitespace-nowrap px-3 py-2 text-[10px] sm:inline-flex lg:px-6 lg:py-3 lg:text-xs"
@@ -250,6 +269,18 @@ export function Header() {
                 <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-foreground transition-colors block">{t('nav.about')}</Link>
                 <Link href="/faq" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-foreground transition-colors block">{t('nav.faq')}</Link>
                 <Link href="/reviews" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-foreground transition-colors block">{t('nav.reviews')}</Link>
+                <CustomButton
+                  text={t('action.call_us')}
+                  icon={Phone}
+                  iconAnimation="ping"
+                  hoverEffects={['ripple', 'tilt']}
+                  clickEffects={['soundwave', 'firework']}
+                  bgColor="#C5A059"
+                  textColor="#0D0F12"
+                  borderRadius="9999px"
+                  className="mt-2 w-full uppercase tracking-normal"
+                  onClick={callStudio}
+                />
                 <Link
                   href="/questionnaire"
                   onClick={() => setIsMobileMenuOpen(false)}

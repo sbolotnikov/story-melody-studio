@@ -208,7 +208,7 @@ export default function GalleryClient() {
         />
 
         <div className="relative z-10 mx-auto flex w-full max-w-7xl items-end px-4 pb-16 pt-28 sm:px-6 lg:items-center lg:px-8 lg:py-20">
-          <div className="relative w-full overflow-hidden rounded-[2rem] border border-white/15 bg-background/45 px-6 py-8 text-left shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] sm:px-9 sm:py-10 lg:max-w-[48%] lg:overflow-visible lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-10 lg:shadow-none lg:backdrop-blur-none">
+          <div className="relative w-full overflow-hidden rounded-4xl border border-white/15 bg-background/45 px-6 py-8 text-left shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] sm:px-9 sm:py-10 lg:max-w-[48%] lg:overflow-visible lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:pr-10 lg:shadow-none lg:backdrop-blur-none">
             <div
               className="pointer-events-none absolute inset-0 lg:hidden"
               style={{
